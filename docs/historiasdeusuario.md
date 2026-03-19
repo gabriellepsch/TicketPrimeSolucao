@@ -24,3 +24,102 @@
 | 22 | Como administrador, quero definir um limite de ingressos por evento para evitar superlotação. | • Campo para definir quantidade máxima de ingressos.<br>• Sistema impede vendas após atingir limite.<br>• Exibição de "Esgotado". |
 | 23 | Como administrador, quero limitar o uso de apenas um cupom por ingresso para evitar prejuízos financeiros. | • Validação que impede uso de múltiplos cupons.<br>• Exibição de aviso ao usuário.<br>• Aplicação de apenas um desconto por compra. |
 | 24 | Como administrador, quero acessar uma tela para visualizar e confirmar ingressos vendidos para controle de participantes. | • Tela com lista de ingressos vendidos.<br>• Exibição de dados do comprador.<br>• Possibilidade de confirmar ou validar ingresso. |
+----------------------------------------------------
+
+## BDD das Histórias de Usuário
+
+- 01:
+
+    Dado: Que sou visitante e não tenho conta criada
+
+    Quando: Acessar a página home
+
+    Então: Os eventos disponíveis são apresentados para o usuário
+
+- 02:
+
+    Dado: Que sou visitante e não tenho conta criada
+
+    Quando: Clicar no botão para criar conta
+
+    Então: Deve ser aberto a página ou o modal para cadastro da conta e a conta deve ser criada
+
+- 03:
+
+    Dado: Que tenho uma conta criada
+
+    Quando: Clicar no botão de fazer login
+
+    Então: Devo ser direcionado para á página ou modal de login e o login deve ser realizado corretamente
+
+- 04:
+
+    Dado: Que tenho uma conta cadastrada
+
+    Quando: Clicar no botão de esqueci minha senha
+
+    Então: Deve ser enviado um email para o email cadastrado na conta para a atualização da senha
+
+- 05:
+
+    Dado: Que estou na tela home
+
+    Quando: Preencher o campo de pesquisa e clicar para pesquisar
+
+    Então: Deve me retornar os eventos com o nome que pesquisei
+
+- 06: 
+
+    Dado: Que estou na tela home
+
+    Quando: Selecionar um filtro 
+
+    Então: Devem ser apresentados os eventos com relação ao filtro que escolhi (Região, data, categoria, etc)
+
+- 07:
+
+    Dado: Estou visualizando os eventos
+
+    Quando: Clicar em um evento
+
+    Então: Deve ser exibida a tela de observações sobre aquele evento com todas as suas informações (data, preço, local, etc)
+
+- 08:
+
+    Dado: Que estou na tela de observação de um evento
+
+    Quando: Clicar no botão para compartilhar
+
+    Então: Deve ser apresentada uma tela com as opçoes de redes sociais para compartilhamento ou um botão para copiar o link
+
+- 09:
+
+    Dado: Que estou na tela de observação de um evento
+
+    Quando: Clicar no botão de comprar
+
+    Então: O ingresso deste evento deve ser adicionado ao carrinho 
+
+- 10:
+
+    Dado: Estou no carrinho
+
+    Quando: Clicar para finalizar a compra
+
+    Então: Deve ser direcionado para a tela de pagamento com as opções de pagamento e permitindo pagar para finalizar a compra
+
+- 11:
+
+    Dado: Estou na tela de pagamento do ingresso
+
+    Quando: Finalizar o pagamento e a compra for finalizada
+
+    Então: Deve ser apresentada a opção de receber o ingresso por email e o ingresso deve ser enviado para o email cadastrado na conta
+
+- 12:
+
+    Dado: Que estou logado na minha conta
+
+    Quando: Clicar no botão de meus ingressos
+
+    Então: Devem ser exibidos todos os ingressos que adquiri
