@@ -123,3 +123,99 @@
     Quando: Clicar no botão de meus ingressos
 
     Então: Devem ser exibidos todos os ingressos que adquiri
+
+- 13:
+
+    Dado: Que estou logado e já comprei um ingresso com meu CPF
+
+    Quando: Tentar comprar outro ingresso
+
+    Então: O sistema deve bloquear a compra e exibir uma mensagem informativa
+
+- 14:
+
+    Dado: Que estou na plataforma
+
+    Quando: Acessar a aba de eventos
+
+    Então: Deve ser exibida uma lista de eventos disponíveis com opção de visualizar detalhes
+
+- 15:
+
+    Dado: Que estou acessando a aba de eventos
+
+    Quando: Visualizar os eventos disponíveis
+
+    Então: Deve ser exibida uma interface responsiva com cards contendo imagem, título e preço
+
+- 16:
+
+    Dado: Que estou na tela de pagamento
+
+    Quando: Inserir um cupom de desconto válido
+
+    Então: O sistema deve validar o cupom e atualizar automaticamente o valor total da compra
+
+- 17:
+
+    Dado: Que estou logado e acessando um evento futuro
+
+    Quando: Clicar no botão de reservar vaga
+
+    Então: A reserva deve ser registrada e exibida no meu perfil
+
+- 18:
+
+    Dado: Que estou logado como administrador
+
+    Quando: Preencher o formulário e criar um novo evento
+
+    Então: O evento deve ser salvo e publicado no catálogo
+
+- 19:
+
+    Dado: Que estou no painel administrativo
+
+    Quando: Acessar a lista de eventos
+
+    Então: Devem ser exibidos todos os eventos com status e opção de editar ou visualizar
+
+- 20:
+
+    Dado: Que estou gerenciando um evento no painel admin
+
+    Quando: Cadastrar lotes de ingressos
+
+    Então: O sistema deve salvar os lotes com quantidade e preço e atualizar a disponibilidade
+
+- 21:
+
+    Dado: Que estou no painel administrativo
+
+    Quando: Cancelar um evento
+
+    Então: O sistema deve bloquear vendas e atualizar o status para "Cancelado"
+
+- 22:
+
+    Dado: Que estou criando ou editando um evento
+
+    Quando: Definir um limite máximo de ingressos
+
+    Então: O sistema deve impedir vendas após atingir o limite e exibir "Esgotado"
+
+- 23:
+
+    Dado: Que estou na tela de pagamento
+
+    Quando: Tentar aplicar mais de um cupom
+
+    Então: O sistema deve permitir apenas um cupom e exibir um aviso ao usuário
+
+- 24:
+
+    Dado: Que estou no painel administrativo
+
+    Quando: Acessar a tela de ingressos vendidos
+
+    Então: Devem ser exibidos os dados dos compradores e a opção de confirmar ou validar ingressos
