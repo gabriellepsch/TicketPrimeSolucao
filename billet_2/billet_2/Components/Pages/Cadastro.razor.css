@@ -1,0 +1,74 @@
+﻿<style >
+/* IMPORTANTE: Mantendo a fonte para esta página */
+@@font-face {
+    font-family: 'TanNimbus';
+    src: url('/fonts/Tan-Nimbus.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Estilo do Topo Centralizado */
+.navbar-top {
+    padding: 40px 0 20px 0;
+    background: white;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.brand-button {
+    font-family: 'TanNimbus', sans-serif;
+    font-size: 2.8rem;
+    color: #808080;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: -1px;
+    /* ADICIONE ESTAS DUAS LINHAS ABAIXO: */
+    text-decoration: none !important; /* Remove o sublinhado de link */
+    display: inline-block;
+}
+
+    .brand-button:hover {
+        color: #444;
+        transform: scale(1.05);
+        text-decoration: none !important; /* Garante que não apareça no hover */
+    }
+
+/* Layout da Página */
+.registration-container {
+    min-height: 70vh; /* Ajustado para não ficar sobrando muito espaço */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    padding-bottom: 50px;
+}
+
+.registration-card {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 450px;
+    border: 1px solid #f0f0f0; /* Borda bem sutil */
+}
+
+/* Inputs Personalizados */
+.custom-input {
+    border-radius: 8px;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+    .custom-input:focus {
+        background-color: #fff;
+        border-color: #808080;
+        box-shadow: 0 0 0 0.25rem rgba(128, 128, 128, 0.1);
+        outline: none;
+    }
+
+</style >
