@@ -1,0 +1,47 @@
+﻿@page "/cadastro"
+@inject NavigationManager Navigation
+
+@* 1. TOPO DA TELA CENTRALIZADO *@
+<nav class="navbar-top">
+    <a href="/" class="brand-button">
+        BiLleT*
+    </a>
+</nav>
+
+@* 2. CONTAINER DE CADASTRO (APENAS UM) *@
+<div class="registration-container">
+    <div class="registration-card shadow-sm">
+        
+        @* Título do Card com a fonte especial *@
+        <h2 class="text-center mb-2 fw-bold" style="font-family: 'TanNimbus', sans-serif; color: #333;">Criar Conta</h2>
+        <p class="text-center text-muted mb-5">Junte-se à inovação em eventos.</p>
+
+        <form>
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Nome Completo</label>
+                <input type="text" class="form-control custom-input" placeholder="Digite seu nome">
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold">E-mail</label>
+                <input type="email" class="form-control custom-input" placeholder="seu@email.com">
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Senha</label>
+                <input type="password" class="form-control custom-input" placeholder="12345678B*">
+            </div>
+
+            <button type="submit" class="btn btn-dark w-100 py-3 mt-3 shadow-sm" style="border-radius: 8px; font-weight: 600;">
+                Finalizar Cadastro
+            </button>
+        </form>
+    </div>
+</div>
+
+@code {
+    private void VoltarParaHome()
+    {
+        Navigation.NavigateTo("/");
+    }
+}

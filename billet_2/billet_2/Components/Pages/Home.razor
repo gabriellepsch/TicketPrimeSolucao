@@ -1,0 +1,78 @@
+﻿@page "/"
+
+<div class="page-container">
+    @* --- SEÇÃO 1: HERO BANNER (VÍDEO) --- *@
+    <section class="hero-section">
+        <div class="video-wrapper">
+            <video autoplay loop muted playsinline class="video-element">
+                <source src="videos/video1.mp4" type="video/mp4" />
+                Seu navegador não suporta vídeos.
+            </video>
+            <div class="video-overlay"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="container text-center text-white">
+                <h1 class="hero-title">B i l L e T *</h1>
+                <p class="hero-text">
+                    O Billet não é apenas uma plataforma de vendas; é o ponto de encontro entre quem cria e quem vive momentos inesquecíveis.
+                </p>
+                <hr class="hero-hr" />
+                <a href="/cadastro" class="btn-hero">Faça seu cadastro e seja família Billet *</a>
+            </div>
+        </div>
+    </section>
+
+    @* --- SEÇÃO 2: EVENTOS (O QUE TINHA SUMIDO) --- *@
+    <section class="events-section">
+        <div class="container py-5">
+            <h2 class="section-title">Nossos eventos ↷</h2>
+            
+            <div class="row g-4">
+                @* CARD 1 *@
+                <div class="col-12 col-md-4">
+                    <div class="event-card shadow-sm">
+                        <div class="event-img-cap">FOTO DO EVENTO</div>
+                        <div class="event-card-body">
+                            <h5>Show de Rock Progressivo</h5>
+                            <p>Show internacional com a banda 'C# & Os compiladores'.</p>
+                            <small>Estádio Municipal - 20/05/2026</small>
+                            <a href="/vendas" class="event-link">Ver ingressos →</a>
+                        </div>
+                    </div>
+                </div>
+
+                @* CARD 2 *@
+                <div class="col-12 col-md-4">
+                    <div class="event-card shadow-sm">
+                        <div class="event-img-cap bg-secondary-subtle">FOTO DO EVENTO</div>
+                        <div class="event-card-body">
+                            <h5>Festival de Comédia</h5>
+                            <p>Os melhores comediantes da região reunidos.</p>
+                            <small>Teatro Central - 12/06/2026</small>
+                            <a href="/vendas" class="event-link">Ver ingressos →</a>
+                        </div>
+                    </div>
+                </div>
+
+                @* CARD 3 *@
+                <div class="col-12 col-md-4">
+                    <div class="event-card shadow-sm">
+                        <div class="event-img-cap bg-primary-subtle">FOTO DO EVENTO</div>
+                        <div class="event-card-body">
+                            <h5>Workshop Blazor & .NET 10</h5>
+                            <p>Aprenda a construir web apps modernos.</p>
+                            <small>Centro de Convenções - 05/07/2026</small>
+                            <a href="/vendas" class="event-link">Inscrever-se →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @* --- SEÇÃO 3: RODAPÉ --- *@
+    <footer class="site-footer">
+        <p>&copy; 2026 Billet - Todos os direitos reservados.</p>
+    </footer>
+</div>
