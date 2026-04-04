@@ -1,7 +1,43 @@
-﻿<h3>Venda</h3>
+﻿@page "/vendas"
+@inject NavigationManager Navigation
 
-@page "/vendas"
+@* 1. TOPO DA TELA CENTRALIZADO *@
+<nav class="navbar-top">
+    <a href="/" class="brand-button">
+        BiLleT*
+    </a>
+</nav>
 
-<h1>Vendas</h1>
-<p>Em breve</p>
-<div class="alert alert-warning">em desenvolvimento.</div>
+<div class="hero-container">
+        @* IMAGEM 1: FUNDO (Com blur e PB - a "Sombra") *@
+        <img src="/images/eventos/@evento.ImagemUrl" class="img-fundo-blur" alt="Fundo Desfocado" />
+
+        @* IMAGEM 2: FRENTE (Nítida e Colorida - o "Card") *@
+        <div class="card-frente-container">
+            <img src="/images/eventos/@evento.ImagemUrl" class="img-card-frente" alt="@evento.Titulo" />
+
+        </div>
+</div>
+
+@code {
+    public class Evento
+    {
+        public string Titulo { get; set; } = "";
+        public string ImagemUrl { get; set; } = "";
+        public DateTime Data { get; set; }
+    }
+
+    private Evento evento = new Evento();
+
+    protected override void OnInitialized()
+    {
+        evento.Titulo = "bilian Wonner";
+        evento.ImagemUrl = "bonner.webp"; // nome do arquivo de imagem na pasta wwwroot/images/eventos
+        evento.Data = DateTime.Now;
+    }
+
+    private void VoltarParaHome()
+    {
+        Navigation.NavigateTo("/");
+    }
+}
