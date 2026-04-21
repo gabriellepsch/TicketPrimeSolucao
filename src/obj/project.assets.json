@@ -89,11 +89,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Administrador\\Downloads\\TicketPrimeSolucao-main\\TicketPrimeSolucao-main\\api\\api.csproj",
+      "projectUniqueName": "C:\\Users\\Administrador\\Desktop\\TicketPrimeSolucao-main\\TicketPrimeSolucao-main\\src\\api.csproj",
       "projectName": "api",
-      "projectPath": "C:\\Users\\Administrador\\Downloads\\TicketPrimeSolucao-main\\TicketPrimeSolucao-main\\api\\api.csproj",
+      "projectPath": "C:\\Users\\Administrador\\Desktop\\TicketPrimeSolucao-main\\TicketPrimeSolucao-main\\src\\api.csproj",
       "packagesPath": "C:\\Users\\Administrador\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Administrador\\Downloads\\TicketPrimeSolucao-main\\TicketPrimeSolucao-main\\api\\obj\\",
+      "outputPath": "C:\\Users\\Administrador\\Desktop\\TicketPrimeSolucao-main\\TicketPrimeSolucao-main\\src\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -156,7 +156,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

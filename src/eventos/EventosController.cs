@@ -7,6 +7,15 @@ public static class EventosController{
             return Results.Ok(Eventos);
         });
     }
+    public static void ListarEventoPorId(this WebApplication app){
+        app.MapGet("/api/eventos/listar/{id}", (int id) => 
+        {
+            var evento = Eventos.FirstOrDefault(e => e.Id == id);
+            if(evento == null)
+                return Results.NotFound("Evento não encontrado.");
+            return Results.Ok(evento);
+        });
+    }
     public static void CadastrarEventos(this WebApplication app){
         app.MapPost("/api/eventos/cadastrar", (Evento novoEvento) => 
         {
@@ -28,7 +37,10 @@ public static class EventosController{
 public class Evento{
     public int Id {get;set;}
     public string Nome {get;set;} = "";
+    public string Descricao {get;set;} = "";
     public string Local {get;set;} = "";
+    public DateTime Data {get;set;}
     public int QuantidadeIngressos {get;set;}
     public float ValorIngresso {get;set;}
+    public string? FotoUrl { get; set; }
 }
