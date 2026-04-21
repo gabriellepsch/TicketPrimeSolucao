@@ -1,10 +1,19 @@
 using billet_2.Components;
+using billet_2.Services;
+using Microsoft.AspNetCore.Components.WebAssembly.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddScoped(dp => new HttpClient {
+    BaseAddress = new Uri("http://localhost:5289")
+});
+
+builder.Services.AddScoped<EventoService>();
+builder.Services.AddScoped<UsuarioService>();
 
 var app = builder.Build();
 

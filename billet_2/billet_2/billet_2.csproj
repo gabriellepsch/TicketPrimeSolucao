@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\billet_2.Client\billet_2.Client.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <Folder Include="wwwroot\fonts\" />
     <Folder Include="wwwroot\images\eventos\" />
     <Folder Include="wwwroot\videos\" />
