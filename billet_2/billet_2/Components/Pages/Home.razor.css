@@ -88,6 +88,12 @@
     }
 
 /* SEÇÃO DE EVENTOS */
+
+img{
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
 .events-section {
     background-color: white;
     position: relative;

@@ -1,5 +1,7 @@
 ﻿@page "/cadastro"
+@using Microsoft.AspNetCore.Components
 @inject NavigationManager Navigation
+@inject billet_2.Services.UsuarioService UsuarioService
 
 @* 1. TOPO DA TELA CENTRALIZADO *@
 <nav class="navbar-top">
@@ -16,32 +18,85 @@
         <h2 class="text-center mb-2 fw-bold" style="font-family: 'TanNimbus', sans-serif; color: #333;">Criar Conta</h2>
         <p class="text-center text-muted mb-5">Junte-se à inovação em eventos.</p>
 
-        <form>
-            <div class="mb-4">
-                <label class="form-label fw-semibold">Nome Completo</label>
-                <input type="text" class="form-control custom-input" placeholder="Digite seu nome">
-            </div>
+        @if (!string.IsNullOrEmpty(mensagemErro))
+        {
+            <div class="alert alert-danger">@mensagemErro</div>
+        }
 
-            <div class="mb-4">
-                <label class="form-label fw-semibold">E-mail</label>
-                <input type="email" class="form-control custom-input" placeholder="seu@email.com">
-            </div>
+        @* Mensagem de sucesso *@
+        @if (cadastroSucesso)
+        {
+            <div class="alert alert-success">Cadastro realizado com sucesso! Redirecionando...</div>
+        }else{
+            <EditForm Model="usuario" OnValidSubmit="Cadastrar" FormName="CadastroUsuario">
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Nome Completo</label>
+                    <InputText type="text" class="form-control custom-input" placeholder="Digite seu nome"
+                        @bind-Value="@usuario.Nome" />
+                </div>
 
-            <div class="mb-4">
-                <label class="form-label fw-semibold">Senha</label>
-                <input type="password" class="form-control custom-input" placeholder="12345678B*">
-            </div>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">E-mail</label>
+                    <InputText type="email" class="form-control custom-input" placeholder="seu@email.com"
+                        @bind-Value="@usuario.Email" />
+                </div>
 
-            <button type="submit" class="btn btn-dark w-100 py-3 mt-3 shadow-sm" style="border-radius: 8px; font-weight: 600;">
-                Finalizar Cadastro
-            </button>
-        </form>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">CPF</label>
+                    <InputText type="text" class="form-control custom-input" placeholder="000.000.000-00"
+                        @bind-Value="@usuario.Cpf" />
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Senha</label>
+                    <InputText type="password" class="form-control custom-input" placeholder="12345678B*"
+                        @bind-Value="@usuario.Senha" />
+                </div>
+
+                <button type="submit" class="btn btn-dark w-100 py-3 mt-3 shadow-sm"
+                        style="border-radius: 8px; font-weight: 600;"
+                        disabled="@carregando">
+                    @(carregando ? "Cadastrando..." : "Finalizar Cadastro")
+                </button>
+            </EditForm>
+        }
     </div>
 </div>
 
 @code {
-    private void VoltarParaHome()
+    [SupplyParameterFromForm(FormName = "CadastroUsuario")]
+    private billet_2.Models.Usuario usuario {get; set;} = new();
+    private string mensagemErro = "";
+    private bool cadastroSucesso = false;
+    private bool carregando = false;
+    protected override void OnInitialized()
     {
-        Navigation.NavigateTo("/");
+        usuario ??= new();
+    }
+    private async Task Cadastrar()
+    {
+        Console.WriteLine("Método Cadastrar iniciado");
+        mensagemErro = "";
+        carregando = true;
+        var erroRetornado = await UsuarioService.CadastrarAsync(usuario);
+
+        Console.WriteLine($"Dados: Nome={usuario.Nome}, Email={usuario.Email}");
+        var sucesso = await UsuarioService.CadastrarAsync(usuario);
+        Console.WriteLine($"Sucesso: {sucesso}");
+
+        if (string.IsNullOrEmpty(erroRetornado))
+        {
+            cadastroSucesso = true;
+            StateHasChanged();
+            await Task.Delay(2000); 
+            Navigation.NavigateTo("/");
+        }
+        else
+        {
+            mensagemErro = erroRetornado;
+            Console.WriteLine($"Erro: {mensagemErro}");
+        }
+
+        carregando = false;
     }
 }

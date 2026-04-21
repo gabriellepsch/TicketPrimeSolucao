@@ -1,5 +1,6 @@
-﻿@page "/vendas"
+﻿@page "/vendas/{Id:int}"
 @inject NavigationManager Navigation
+@inject billet_2.Services.EventoService EventoService
 
 @* 1. TOPO DA TELA CENTRALIZADO *@
 <nav class="navbar-top">
@@ -8,36 +9,38 @@
     </a>
 </nav>
 
-<div class="hero-container">
-        @* IMAGEM 1: FUNDO (Com blur e PB - a "Sombra") *@
-        <img src="/images/eventos/@evento.ImagemUrl" class="img-fundo-blur" alt="Fundo Desfocado" />
-
-        @* IMAGEM 2: FRENTE (Nítida e Colorida - o "Card") *@
-        <div class="card-frente-container">
-            <img src="/images/eventos/@evento.ImagemUrl" class="img-card-frente" alt="@evento.Titulo" />
-
+@if (evento == null)
+{
+    <p>Carregando...</p>
+}
+else
+{
+    <div class="hero-container">
+        <img src="@evento.FotoUrl" class="img-fundo-blur" alt="Fundo Desfocado" />
+        <div class="hero-content">
+            <div class="card-frente-container">
+                <img src="@evento.FotoUrl" class="img-card-frente" alt="@evento.Nome" />
+            </div>
+            <div class="evento-info">
+                <h1 class="evento-nome">@evento.Nome</h1>
+                <p class="evento-descricao">@evento.Descricao</p>
+            </div>
         </div>
-</div>
+    </div>
+}
 
 @code {
-    public class Evento
+    [Parameter]
+
+    public int Id { get; set; }
+    private billet_2.Models.Evento? evento;
+    protected override async Task OnInitializedAsync()
     {
-        public string Titulo { get; set; } = "";
-        public string ImagemUrl { get; set; } = "";
-        public DateTime Data { get; set; }
+        evento = await EventoService.BuscarPorIdAsync(Id);
     }
-
-    private Evento evento = new Evento();
-
-    protected override void OnInitialized()
-    {
-        evento.Titulo = "bilian Wonner";
-        evento.ImagemUrl = "bonner.webp"; // nome do arquivo de imagem na pasta wwwroot/images/eventos
-        evento.Data = DateTime.Now;
-    }
-
     private void VoltarParaHome()
     {
         Navigation.NavigateTo("/");
     }
 }
+

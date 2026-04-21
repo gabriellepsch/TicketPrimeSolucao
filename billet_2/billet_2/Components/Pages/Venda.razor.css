@@ -1,5 +1,4 @@
-﻿<style >
-/* 1. FONTE PERSONALIZADA */
+﻿/* 1. FONTE PERSONALIZADA */
 @font-face {
     font-family: 'TanNimbus';
     src: url('/fonts/Tan-Nimbus.otf') format('opentype');
@@ -43,8 +42,37 @@
     display: flex;
     align-items: center;
     /* AJUSTE PARA A DIREITA: */
-    justify-content: flex-end;
+    justify-content: center;
     padding-right: 8%; /* Distância da borda direita */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px; /* espaço entre texto e foto */
+    width: 100%;
+    padding: 0 8%;
+}
+
+.evento-info {
+    color: white;
+    max-width: 450px;
+}
+
+.evento-nome {
+    font-family: 'TanNimbus', sans-serif;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.evento-descricao {
+    font-size: 1.1rem;
+    opacity: 0.85;
+    line-height: 1.7;
 }
 
 /* 4. IMAGEM DE FUNDO (BLUR + PB) */
@@ -107,4 +135,3 @@
         font-size: 1rem;
     }
 
-</style >
