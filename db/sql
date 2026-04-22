@@ -3,22 +3,25 @@ DROP TABLE IF EXISTS Cupons;
 DROP TABLE IF EXISTS Eventos;
 DROP TABLE IF EXISTS Usuarios;
 --usuario-
-CREATE TABLE Usuarios (
-    Cpf VARCHAR(11) PRIMARY KEY,
-    Nome VARCHAR(100) NOT NULL,
-    Email VARCHAR(150) NOT NULL UNIQUE,
-    DataCadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS "Usuarios" (
+    "Id" SERIAL PRIMARY KEY,
+    "Nome" VARCHAR(255) NOT NULL,
+    "Email" VARCHAR(255) UNIQUE NOT NULL,
+    "Cpf" VARCHAR(14) UNIQUE NOT NULL,
+    "Senha" TEXT NOT NULL,
+	"Adm" BOOL NOT NULL
 );
+
 --eventos
-CREATE TABLE Eventos (
-    Id SERIAL PRIMARY KEY,
-    Nome VARCHAR(150) NOT NULL,
-	local varchar(50) NOT NULL,
-	Url VARCHAR(250),
-    CapacidadeTotal INT NOT NULL CHECK (CapacidadeTotal > 0),
-    DataEvento TIMESTAMP NOT NULL,
-    Preco NUMERIC(10,2) NOT NULL CHECK (Preco >= 0),
-    DataCriacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS "Eventos" (
+    "Id" SERIAL PRIMARY KEY,
+    "Nome" VARCHAR(255) NOT NULL,
+    "Descricao" TEXT,
+    "Local" VARCHAR(255),
+    "Data" TIMESTAMP NOT NULL,
+    "QuantidadeIngressos" INT NOT NULL,
+    "ValorIngresso" REAL NOT NULL,
+    "FotoUrl" TEXT
 );
 --cupons
 CREATE TABLE Cupons (
