@@ -1,0 +1,231 @@
+<style >
+/* ============================================================
+   1. BASE E FONTES
+   ============================================================ */
+@font-face[b-tgm1elreia] {
+    font-family: 'TanNimbus';
+    src: url('/fonts/Tan-Nimbus.otf') format('opentype');
+}
+
+html[b-tgm1elreia], body[b-tgm1elreia] {
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 100vh;
+    background-color: #000;
+    margin: 0;
+}
+
+/* ============================================================
+   2. NAVBAR (LOGO CENTRALIZADO + GRUPO DE AÇÕES NA DIREITA)
+   ============================================================ */
+.navbar-top[b-tgm1elreia] {
+    background-color: #1a1a1a;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    z-index: 50;
+    border-bottom: 2px solid #1a1a1a;
+}
+
+.brand-button[b-tgm1elreia] {
+    font-family: 'TanNimbus', sans-serif;
+    font-size: 2.8rem;
+    color: #EDEDED;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+}
+
+    .brand-button:hover[b-tgm1elreia] {
+        color: #FFFFFF;
+        transform: scale(1.05);
+    }
+
+.nav-actions-right[b-tgm1elreia] {
+    position: absolute;
+    right: 40px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-action-button[b-tgm1elreia] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-decoration: none !important;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+    .nav-action-button:hover[b-tgm1elreia] {
+        background-color: #fff;
+        color: #000;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+    }
+
+.create-btn[b-tgm1elreia] {
+    border-color: #FFD700;
+    color: #FFD700;
+}
+
+    .create-btn:hover[b-tgm1elreia] {
+        background-color: #FFD700;
+        color: #000;
+        border-color: #FFD700;
+    }
+
+/* ============================================================
+   3. HERO SECTION (BANNER PRINCIPAL COM EFEITO)
+   ============================================================ */
+.hero-container[b-tgm1elreia] {
+    position: relative;
+    width: 100%;
+    height: 75vh;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img-fundo-blur[b-tgm1elreia] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(15px) grayscale(100%) brightness(35%);
+    transform: scale(1.1);
+    z-index: 1;
+}
+
+/* O CARD (Recuperado e com efeito) */
+.card-frente-container[b-tgm1elreia] {
+    position: relative;
+    z-index: 10;
+    height: 520px; /* Altura restaurada */
+    width: 920px; /* Largura restaurada */
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.9);
+    border: 1px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.img-card-frente[b-tgm1elreia] {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Efeito de Hover no Card */
+.card-frente-container:hover[b-tgm1elreia] {
+    transform: translateY(-15px) scale(1.01);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+    .card-frente-container:hover .img-card-frente[b-tgm1elreia] {
+        transform: scale(1.1);
+        filter: brightness(1.1);
+    }
+
+/* Texto sobreposto */
+.card-frente-info[b-tgm1elreia] {
+    padding: 30px;
+    background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    transition: padding-bottom 0.4s ease;
+}
+
+    .card-frente-info h3[b-tgm1elreia] {
+        margin: 0;
+        font-size: 2.2rem;
+        font-family: 'TanNimbus', sans-serif;
+    }
+
+.card-frente-container:hover .card-frente-info[b-tgm1elreia] {
+    padding-bottom: 40px;
+}
+
+/* ============================================================
+   4. GRID DE EVENTOS
+   ============================================================ */
+.events-section[b-tgm1elreia] {
+    background-color: white;
+    width: 100%;
+    padding: 60px 0;
+}
+
+.section-title[b-tgm1elreia] {
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 3rem;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.event-card[b-tgm1elreia] {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 100%;
+    transition: 0.3s;
+    border: 1px solid #eee;
+}
+
+    .event-card:hover[b-tgm1elreia] {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+
+.event-img-cap[b-tgm1elreia] {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    color: #adb5bd;
+}
+
+.event-card-body[b-tgm1elreia] {
+    padding: 20px;
+}
+
+.event-link[b-tgm1elreia] {
+    display: block;
+    margin-top: 15px;
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+/* ============================================================
+   5. RODAPÉ
+   ============================================================ */
+.site-footer[b-tgm1elreia] {
+    background-color: #1a1a1a;
+    color: white;
+    padding: 3rem;
+    text-align: center;
+}
+
+</style[b-tgm1elreia] >

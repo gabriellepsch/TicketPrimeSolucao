@@ -1,0 +1,1144 @@
+/* /Components/Pages/Cadastro.razor.rz.scp.css */
+/* --- 1. FONTE --- */
+@font-face {
+    font-family: 'TanNimbus';
+    src: url('/fonts/Tan-Nimbus.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* --- 2. BARRA DE TOPO --- */
+.navbar-top[b-yxch66d3ck] {
+    padding: 40px 0 20px 0;
+    background: white;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.brand-button[b-yxch66d3ck] {
+    font-family: 'TanNimbus', sans-serif;
+    font-size: 2.8rem;
+    color: #808080;
+    text-decoration: none !important;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+    .brand-button:hover[b-yxch66d3ck] {
+        color: #444;
+        transform: scale(1.05);
+    }
+
+/* --- 3. LAYOUT --- */
+.registration-container[b-yxch66d3ck] {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    padding-bottom: 50px;
+}
+
+.registration-card[b-yxch66d3ck] {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 450px;
+    border: 1px solid #f0f0f0;
+}
+
+/* --- 4. INPUTS --- */
+.custom-input[b-yxch66d3ck] {
+    border-radius: 8px;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+    width: 100%;
+}
+
+    .custom-input:focus[b-yxch66d3ck] {
+        background-color: #fff;
+        border-color: #808080;
+        box-shadow: 0 0 0 0.25rem rgba(128, 128, 128, 0.1);
+        outline: none;
+    }
+
+/* --- 5. BOTÃO FINALIZAR --- */
+.btn-finalizar[b-yxch66d3ck] {
+    width: 100%;
+    padding: 15px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    .btn-finalizar:hover[b-yxch66d3ck] {
+        background-color: #000;
+        transform: translateY(-2px);
+    }
+
+/* --- 6. ANIMAÇÃO --- */
+.admin-field-animation[b-yxch66d3ck] {
+    animation: fadeIn-b-yxch66d3ck 0.3s ease-out;
+}
+
+
+/* --- 7. alertas apit--- */
+@keyframes fadeIn-b-yxch66d3ck {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert[b-yxch66d3ck] {
+    border-radius: 10px;
+    font-size: 0.9rem;
+    border: none;
+    margin-bottom: 20px;
+}
+
+.alert-danger[b-yxch66d3ck] {
+    background-color: #fff5f5;
+    color: #c53030;
+}
+
+.alert-success[b-yxch66d3ck] {
+    background-color: #f0fff4;
+    color: #2f855a;
+}
+/* /Components/Pages/Criarevento.razor.rz.scp.css */
+<style >
+/* 1. FONTE E BASE */
+@font-face[b-8gdv8jglal] {
+    font-family: 'TanNimbus';
+    src: url('/fonts/Tan-Nimbus.otf') format('opentype');
+}
+
+/* 2. NAVBAR COM DOIS BOTÕES */
+.navbar-top[b-8gdv8jglal] {
+    background-color: #1a1a1a;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 100;
+    border-bottom: 2px solid #1a1a1a;
+}
+
+.brand-button[b-8gdv8jglal] {
+    font-family: 'TanNimbus', sans-serif;
+    font-size: 2.8rem;
+    color: #EDEDED;
+    text-decoration: none !important;
+}
+
+.nav-actions-right[b-8gdv8jglal] {
+    position: absolute;
+    right: 40px;
+    display: flex;
+    gap: 15px;
+}
+
+.nav-action-button[b-8gdv8jglal] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-decoration: none !important;
+    transition: 0.3s;
+}
+
+    .nav-action-button:hover[b-8gdv8jglal] {
+        background: #fff;
+        color: #000;
+    }
+
+.create-btn[b-8gdv8jglal] {
+    border-color: #FFD700;
+    color: #FFD700;
+}
+
+    .create-btn:hover[b-8gdv8jglal] {
+        background: #FFD700;
+        color: #000;
+    }
+
+/* 3. TELA DE CRIAR EVENTO */
+.create-wrapper[b-8gdv8jglal] {
+    background-color: #000;
+    min-height: 90vh;
+    padding: 80px 20px;
+    color: white;
+}
+
+.create-container[b-8gdv8jglal] {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.create-title[b-8gdv8jglal] {
+    font-family: 'TanNimbus', sans-serif;
+    font-size: 3.5rem;
+    margin-bottom: 50px;
+}
+
+.create-form[b-8gdv8jglal] {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 40px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-group[b-8gdv8jglal] {
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row[b-8gdv8jglal] {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+label[b-8gdv8jglal] {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #666;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+input[b-8gdv8jglal], textarea[b-8gdv8jglal] {
+    background: #111;
+    border: 1px solid #333;
+    padding: 15px;
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+    input:focus[b-8gdv8jglal], textarea:focus[b-8gdv8jglal] {
+        outline: none;
+        border-color: #FFD700;
+    }
+
+/* 4. ÁREA DE UPLOAD DE IMAGEM (NOVO) */
+.image-upload-wrapper[b-8gdv8jglal] {
+    width: 100%;
+}
+
+.custom-file-upload[b-8gdv8jglal] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 220px;
+    background: #0a0a0a;
+    border: 2px dashed #333;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    padding: 20px;
+}
+
+    .custom-file-upload:hover[b-8gdv8jglal] {
+        border-color: #FFD700;
+        background: rgba(255, 215, 0, 0.02);
+    }
+
+.upload-icon[b-8gdv8jglal] {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.upload-text[b-8gdv8jglal] {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.custom-file-upload small[b-8gdv8jglal] {
+    color: #555;
+    font-size: 0.8rem;
+}
+
+/* Esconde o input original do sistema */
+input[type="file"][b-8gdv8jglal] {
+    display: none;
+}
+
+/* 5. BOTÕES DE AÇÃO */
+.form-actions[b-8gdv8jglal] {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.btn-cancel[b-8gdv8jglal] {
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+    .btn-cancel:hover[b-8gdv8jglal] {
+        color: #fff;
+    }
+
+.btn-save[b-8gdv8jglal] {
+    background: #fff;
+    color: #000;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    .btn-save:hover[b-8gdv8jglal] {
+        background: #FFD700;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
+    }
+
+/* 6. RODAPÉ */
+.site-footer[b-8gdv8jglal] {
+    background-color: #1a1a1a;
+    color: #444;
+    padding: 40px;
+    text-align: center;
+}
+
+</style[b-8gdv8jglal] >
+/* /Components/Pages/Home.razor.rz.scp.css */
+/* RESET E ESTRUTURA BASE */
+.page-container[b-g578n4tehw] {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* SEÇÃO DO VÍDEO (HERO) */
+.hero-section[b-g578n4tehw] {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Ocupa a tela inteira */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.video-wrapper[b-g578n4tehw] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.video-element[b-g578n4tehw] {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(10px) brightness(0.7);
+}
+
+.video-overlay[b-g578n4tehw] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.hero-content[b-g578n4tehw] {
+    position: relative;
+    z-index: 2; /* Acima do vídeo */
+    width: 100%;
+}
+
+.hero-title[b-g578n4tehw] {
+    font-family: 'TanNimbus', sans-serif;
+    font-size: clamp(3rem, 8vw, 5rem);
+    letter-spacing: -2px;
+}
+
+.hero-text[b-g578n4tehw] {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.hero-hr[b-g578n4tehw] {
+    width: 60px;
+    height: 3px;
+    background-color: white;
+    margin: 2rem auto;
+    border: none;
+    opacity: 1;
+}
+
+/* BOTÃO CUSTOM */
+.btn-hero[b-g578n4tehw] {
+    display: inline-block;
+    background-color: #1a1a1a;
+    color: white;
+    padding: 14px 32px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+    .btn-hero:hover[b-g578n4tehw] {
+        background-color: #333;
+        transform: scale(1.05);
+        color: white;
+    }
+
+/* SEÇÃO DE EVENTOS */
+.events-section[b-g578n4tehw] {
+    background-color: white;
+    position: relative;
+    z-index: 3; /* Garante que fique sobre o vídeo ao rolar */
+    width: 100%;
+}
+
+.section-title[b-g578n4tehw] {
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+/* CARDS DE EVENTO */
+.event-card[b-g578n4tehw] {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 100%;
+    transition: 0.3s;
+    border: 1px solid #eee;
+}
+
+    .event-card:hover[b-g578n4tehw] {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+
+.event-img-cap[b-g578n4tehw] {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    color: #adb5bd;
+    font-size: 0.8rem;
+}
+
+.event-card-body[b-g578n4tehw] {
+    padding: 20px;
+}
+
+.event-link[b-g578n4tehw] {
+    display: block;
+    margin-top: 15px;
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+/* RODAPÉ */
+.site-footer[b-g578n4tehw] {
+    background-color: #1a1a1a;
+    color: white;
+    padding: 3rem;
+    text-align: center;
+}
+/* /Components/Pages/Meusingressos.razor.rz.scp.css */
+.navbar-top[b-4qfns75nr8] {
+    background-color: #1a1a1a;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    z-index: 20;
+    border-bottom: 2px solid #1a1a1a;
+}
+
+.brand-button[b-4qfns75nr8] {
+    font-family: 'TanNimbus', sans-serif;
+    font-size: 2.8rem;
+    color: #EDEDED;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+    .brand-button:hover[b-4qfns75nr8] {
+        color: #FFFFFF;
+        transform: scale(1.05);
+    }
+
+.navbar-top[b-4qfns75nr8] {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* --- FUNDO E ESTRUTURA --- */
+.tickets-wrapper[b-4qfns75nr8] {
+    background-color: #000;
+    min-height: 85vh;
+    padding: 60px 20px;
+    color: white;
+}
+
+.tickets-container[b-4qfns75nr8] {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.tickets-title[b-4qfns75nr8] {
+    font-family: 'TanNimbus', sans-serif;
+    font-size: 3.5rem;
+    margin-bottom: 50px;
+}
+
+/* --- CARD DO INGRESSO --- */
+.ticket-item[b-4qfns75nr8] {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 30px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 25px;
+    gap: 30px;
+    transition: transform 0.3s ease;
+}
+
+    .ticket-item:hover[b-4qfns75nr8] {
+        background: rgba(255, 255, 255, 0.04);
+    }
+
+.ticket-img-box img[b-4qfns75nr8] {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+.ticket-info[b-4qfns75nr8] {
+    flex-grow: 1;
+}
+
+    .ticket-info h3[b-4qfns75nr8] {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+.ticket-meta[b-4qfns75nr8] {
+    color: #888;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+/* Badges de Setor */
+.badge-sector[b-4qfns75nr8] {
+    font-size: 0.8rem;
+    font-weight: 800;
+    padding: 8px 16px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.vip-gold[b-4qfns75nr8] {
+    background: rgba(255, 215, 0, 0.1);
+    color: #FFD700;
+    border: 1px solid #FFD700;
+}
+
+.normal-white[b-4qfns75nr8] {
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+}
+
+.ticket-date[b-4qfns75nr8] {
+    margin-left: 15px;
+    color: #555;
+    font-weight: 600;
+}
+
+/* Preço e Botão Remover */
+.ticket-action-price[b-4qfns75nr8] {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ticket-price[b-4qfns75nr8] {
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin-bottom: 15px;
+}
+
+.btn-remove[b-4qfns75nr8] {
+    background: none;
+    border: none;
+    color: #ff4d4d;
+    font-size: 0.85rem;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* --- RESUMO DE COMPRA --- */
+.checkout-summary[b-4qfns75nr8] {
+    margin-top: 60px;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 40px;
+    border-radius: 24px;
+    border-top: 1px solid #333;
+}
+
+.summary-line[b-4qfns75nr8] {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    color: #888;
+    font-size: 1.1rem;
+}
+
+    .summary-line.total[b-4qfns75nr8] {
+        color: #fff;
+        font-size: 2.5rem;
+        font-weight: 900;
+        margin-top: 20px;
+        border-top: 1px solid #222;
+        padding-top: 20px;
+    }
+
+.action-buttons[b-4qfns75nr8] {
+    display: flex;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.btn-add-more[b-4qfns75nr8] {
+    flex: 1;
+    background: none;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-checkout[b-4qfns75nr8] {
+    flex: 2;
+    background: #fff;
+    color: #000;
+    border: none;
+    padding: 20px;
+    border-radius: 15px;
+    font-weight: 800;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    .btn-checkout:hover[b-4qfns75nr8] {
+        background: #FFD700;
+        transform: translateY(-5px);
+    }
+/* /Components/Pages/Poslogin.razor.rz.scp.css */
+<style >
+/* ============================================================
+   1. BASE E FONTES
+   ============================================================ */
+@font-face[b-tgm1elreia] {
+    font-family: 'TanNimbus';
+    src: url('/fonts/Tan-Nimbus.otf') format('opentype');
+}
+
+html[b-tgm1elreia], body[b-tgm1elreia] {
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 100vh;
+    background-color: #000;
+    margin: 0;
+}
+
+/* ============================================================
+   2. NAVBAR (LOGO CENTRALIZADO + GRUPO DE AÇÕES NA DIREITA)
+   ============================================================ */
+.navbar-top[b-tgm1elreia] {
+    background-color: #1a1a1a;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    z-index: 50;
+    border-bottom: 2px solid #1a1a1a;
+}
+
+.brand-button[b-tgm1elreia] {
+    font-family: 'TanNimbus', sans-serif;
+    font-size: 2.8rem;
+    color: #EDEDED;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+}
+
+    .brand-button:hover[b-tgm1elreia] {
+        color: #FFFFFF;
+        transform: scale(1.05);
+    }
+
+.nav-actions-right[b-tgm1elreia] {
+    position: absolute;
+    right: 40px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-action-button[b-tgm1elreia] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-decoration: none !important;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+    .nav-action-button:hover[b-tgm1elreia] {
+        background-color: #fff;
+        color: #000;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+    }
+
+.create-btn[b-tgm1elreia] {
+    border-color: #FFD700;
+    color: #FFD700;
+}
+
+    .create-btn:hover[b-tgm1elreia] {
+        background-color: #FFD700;
+        color: #000;
+        border-color: #FFD700;
+    }
+
+/* ============================================================
+   3. HERO SECTION (BANNER PRINCIPAL COM EFEITO)
+   ============================================================ */
+.hero-container[b-tgm1elreia] {
+    position: relative;
+    width: 100%;
+    height: 75vh;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img-fundo-blur[b-tgm1elreia] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(15px) grayscale(100%) brightness(35%);
+    transform: scale(1.1);
+    z-index: 1;
+}
+
+/* O CARD (Recuperado e com efeito) */
+.card-frente-container[b-tgm1elreia] {
+    position: relative;
+    z-index: 10;
+    height: 520px; /* Altura restaurada */
+    width: 920px; /* Largura restaurada */
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.9);
+    border: 1px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.img-card-frente[b-tgm1elreia] {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Efeito de Hover no Card */
+.card-frente-container:hover[b-tgm1elreia] {
+    transform: translateY(-15px) scale(1.01);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+    .card-frente-container:hover .img-card-frente[b-tgm1elreia] {
+        transform: scale(1.1);
+        filter: brightness(1.1);
+    }
+
+/* Texto sobreposto */
+.card-frente-info[b-tgm1elreia] {
+    padding: 30px;
+    background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    transition: padding-bottom 0.4s ease;
+}
+
+    .card-frente-info h3[b-tgm1elreia] {
+        margin: 0;
+        font-size: 2.2rem;
+        font-family: 'TanNimbus', sans-serif;
+    }
+
+.card-frente-container:hover .card-frente-info[b-tgm1elreia] {
+    padding-bottom: 40px;
+}
+
+/* ============================================================
+   4. GRID DE EVENTOS
+   ============================================================ */
+.events-section[b-tgm1elreia] {
+    background-color: white;
+    width: 100%;
+    padding: 60px 0;
+}
+
+.section-title[b-tgm1elreia] {
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 3rem;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.event-card[b-tgm1elreia] {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 100%;
+    transition: 0.3s;
+    border: 1px solid #eee;
+}
+
+    .event-card:hover[b-tgm1elreia] {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+
+.event-img-cap[b-tgm1elreia] {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    color: #adb5bd;
+}
+
+.event-card-body[b-tgm1elreia] {
+    padding: 20px;
+}
+
+.event-link[b-tgm1elreia] {
+    display: block;
+    margin-top: 15px;
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+/* ============================================================
+   5. RODAPÉ
+   ============================================================ */
+.site-footer[b-tgm1elreia] {
+    background-color: #1a1a1a;
+    color: white;
+    padding: 3rem;
+    text-align: center;
+}
+
+</style[b-tgm1elreia] >
+/* /Components/Pages/Venda.razor.rz.scp.css */
+/* 1. FONTE PERSONALIZADA */
+@font-face {
+    font-family: 'TanNimbus';
+    src: url('/fonts/Tan-Nimbus.otf') format('opentype');
+}
+
+/* 2. BARRA DE TOPO (NAVBAR) */
+.navbar-top[b-ylhfa24c83] {
+    background-color: #1a1a1a;
+    padding: 20px;
+    display: flex;
+    justify-content: center; /* Mantém o logo no centro */
+    align-items: center;
+    width: 100%;
+    position: relative; /* Pai para o botão absolute */
+    z-index: 50;
+    border-bottom: 2px solid #1a1a1a;
+}
+
+.brand-button[b-ylhfa24c83] {
+    font-family: 'TanNimbus', sans-serif;
+    font-size: 2.8rem;
+    color: #EDEDED;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+}
+
+    .brand-button:hover[b-ylhfa24c83] {
+        color: #FFFFFF;
+        transform: scale(1.05);
+    }
+
+/* NOVO BOTÃO NO CANTO DIREITO */
+.nav-ticket-button[b-ylhfa24c83] {
+    position: absolute;
+    right: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-decoration: none !important;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+    .nav-ticket-button:hover[b-ylhfa24c83] {
+        background-color: #fff;
+        color: #000;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+    }
+
+/* 3. CONTAINER PRINCIPAL (BANNER) */
+.hero-container[b-ylhfa24c83] {
+    position: relative;
+    width: 100%;
+    height: 85vh;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img-fundo-blur[b-ylhfa24c83] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(25px) grayscale(100%) brightness(30%);
+    transform: scale(1.1);
+    z-index: 1;
+}
+
+/* 4. CARD DIVIDIDO (FLEXBOX) */
+.card-frente-container[b-ylhfa24c83] {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    height: 480px;
+    width: 980px;
+    background: rgba(26, 26, 26, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+    border: 1px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s ease;
+}
+
+.photo-column[b-ylhfa24c83] {
+    width: 480px;
+    height: 100%;
+    flex-shrink: 0;
+}
+
+.img-card-frente[b-ylhfa24c83] {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info-column[b-ylhfa24c83] {
+    flex-grow: 1;
+    color: white;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.event-title[b-ylhfa24c83] {
+    font-family: 'TanNimbus', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 25px;
+}
+
+/* 5. SEÇÃO DE SETORES (FUNDOS E BORDAS) */
+.sectors-section[b-ylhfa24c83] {
+    background-color: #FFFFFF;
+    padding: 100px 20px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.sectors-container[b-ylhfa24c83] {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    gap: 40px;
+    justify-content: center;
+}
+
+.sector-card[b-ylhfa24c83] {
+    flex: 1;
+    max-width: 500px;
+    height: 500px;
+    border-radius: 50px;
+    display: flex;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.sector-card-inner[b-ylhfa24c83] {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    border-radius: 38px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.sector-emoji[b-ylhfa24c83] {
+    font-size: 8rem;
+    margin-bottom: 20px;
+    transition: transform 0.4s ease;
+}
+
+.sector-label[b-ylhfa24c83] {
+    font-family: 'TanNimbus', sans-serif;
+    font-size: 3rem;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+.sector-price[b-ylhfa24c83]{
+    color: white;
+}
+
+/* ESTILOS DOS CARDS (VIP/NORMAL) */
+.vip-card[b-ylhfa24c83] {
+    background-color: #FFD700;
+}
+
+    .vip-card:hover[b-ylhfa24c83] {
+        transform: translateY(-15px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(255, 215, 0, 0.3);
+    }
+
+.normal-card[b-ylhfa24c83] {
+    padding: 12px;
+    background: #FFFFFF;
+}
+
+    .normal-card:hover[b-ylhfa24c83] {
+        transform: translateY(-15px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+.sector-card:hover .sector-emoji[b-ylhfa24c83] {
+    transform: scale(1.15);
+}
+
+/* 6. RODAPÉ */
+.site-footer[b-ylhfa24c83] {
+    background-color: #1a1a1a;
+    color: white;
+    padding: 3rem;
+    text-align: center;
+}
