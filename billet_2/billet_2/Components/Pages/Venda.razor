@@ -1,43 +1,115 @@
-﻿@page "/vendas"
+﻿@page "/vendas/{Id:int}"
+@using billet_2.Models
+@inject billet_2.Services.EventoService EventoService
 @inject NavigationManager Navigation
 
-@* 1. TOPO DA TELA CENTRALIZADO *@
+@* --- 1. BARRA DE NAVEGAÇÃO --- *@
 <nav class="navbar-top">
-    <a href="/" class="brand-button">
-        BiLleT*
+    @* Redireciona para poslogin para manter o fluxo de usuário logado *@
+    <a href="/poslogin" class="brand-button"> BiLleT* </a>
+
+    <a href="/meusingressos" class="nav-ticket-button">
+        <span>Meus Ingressos</span> 🎫
     </a>
 </nav>
 
-<div class="hero-container">
-        @* IMAGEM 1: FUNDO (Com blur e PB - a "Sombra") *@
-        <img src="/images/eventos/@evento.ImagemUrl" class="img-fundo-blur" alt="Fundo Desfocado" />
+@if (evento == null)
+{
+    <div class="container text-center py-5">
+        <div class="spinner-border text-dark" role="status"></div>
+        <p class="mt-3">Buscando detalhes do evento...</p>
+    </div>
+}
+else
+{
+    @* --- 2. SEÇÃO DO BANNER PRINCIPAL DINÂMICO --- *@
+    <div class="hero-container">
+        @* Fundo desfocado dinâmico *@
+        <img src="/images/eventos/@(string.IsNullOrEmpty(evento.FotoUrl) ? "default.jpg" : evento.FotoUrl)"
+             class="img-fundo-blur" alt="Fundo Desfocado" />
 
-        @* IMAGEM 2: FRENTE (Nítida e Colorida - o "Card") *@
         <div class="card-frente-container">
-            <img src="/images/eventos/@evento.ImagemUrl" class="img-card-frente" alt="@evento.Titulo" />
+            <div class="photo-column">
+                <img src="/images/eventos/@(string.IsNullOrEmpty(evento.FotoUrl) ? "default.jpg" : evento.FotoUrl)"
+                     class="img-card-frente" alt="@evento.Nome" />
+            </div>
+
+            <div class="info-column">
+                <div class="content-padding">
+                    <h1 class="event-title">@evento.Nome</h1>
+                    
+                    <div class="meta-data">
+                        <div class="meta-item">
+                            <span class="label">LOCAL</span>
+                            <span class="value">@evento.Local</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="label">HORÁRIO</span>
+                            @* Formata a hora a partir do DateTime do banco *@
+                            <span class="value">@evento.Data.ToString("HH:mm")h</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="label">DATA</span>
+                            <span class="value">@evento.Data.ToString("dd/MM/yyyy")</span>
+                        </div>
+                    </div>
+
+                    <div class="about-section">
+                        <h3>SOBRE O EVENTO</h3>
+                        <p>@evento.Descricao</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* --- 3. SEÇÃO DE SETORES --- *@
+    <section class="sectors-section">
+        <div class="sectors-container">
+            
+            @* QUADRADO VIP *@
+            @* Aqui simulamos um valor VIP (ex: +50%) já que o model do Git tem apenas um valor base *@
+            <div class="sector-card vip-card" @onclick='() => SelecionarIngresso("VIP", (float)(evento.ValorIngresso * 1.5))'>
+                <div class="sector-card-inner">
+                    <span class="sector-emoji">👑</span>
+                    <span class="sector-label">VIP</span>
+                    <span class="sector-price">R$ @((evento.ValorIngresso * 1.5).ToString("N2"))</span>
+                </div>
+            </div>
+
+            @* QUADRADO PADRÃO *@
+            <div class="sector-card normal-card" @onclick='() => SelecionarIngresso("NORMAL", evento.ValorIngresso)'>
+                <div class="sector-card-inner">
+                    <span class="sector-emoji">🎫</span>
+                    <span class="sector-label">NORMAL</span>
+                    <span class="sector-price">R$ @evento.ValorIngresso.ToString("N2")</span>
+                </div>
+            </div>
 
         </div>
-</div>
+    </section>
+}
+
+<footer class="site-footer">
+    <p>&copy; 2026 Billet - Todos os direitos reservados.</p>
+</footer>
 
 @code {
-    public class Evento
+    [Parameter]
+    public int Id { get; set; }
+
+    private Evento? evento;
+
+    protected override async Task OnInitializedAsync()
     {
-        public string Titulo { get; set; } = "";
-        public string ImagemUrl { get; set; } = "";
-        public DateTime Data { get; set; }
+        // Busca o evento específico clicado na Home/Poslogin usando o ID da URL
+        evento = await EventoService.BuscarPorIdAsync(Id);
     }
 
-    private Evento evento = new Evento();
-
-    protected override void OnInitialized()
+    private void SelecionarIngresso(string setor, float preco)
     {
-        evento.Titulo = "bilian Wonner";
-        evento.ImagemUrl = "bonner.webp"; // nome do arquivo de imagem na pasta wwwroot/images/eventos
-        evento.Data = DateTime.Now;
-    }
-
-    private void VoltarParaHome()
-    {
-        Navigation.NavigateTo("/");
+        // Aqui o "Cara da API" vai salvar no carrinho/banco
+        // Por enquanto, redirecionamos para os ingressos
+        Navigation.NavigateTo("/meusingressos");
     }
 }

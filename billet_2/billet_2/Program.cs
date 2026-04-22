@@ -1,10 +1,22 @@
 using billet_2.Components;
+using billet_2.Services; // Adicionado: Para reconhecer suas pastas de serviço
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddInteractiveWebAssemblyComponents();
+    .AddInteractiveWebAssemblyComponents()
+    .AddInteractiveServerComponents(); // Mantendo o seu suporte a Server Mode
+
+// --- ADICIONADO DO GIT: CONFIGURAÇÃO DA API ---
+builder.Services.AddScoped(dp => new HttpClient
+{
+    BaseAddress = new Uri("http://localhost:5289") // O endereço da API do cara do backend
+});
+
+// --- ADICIONADO DO GIT: REGISTRO DOS SERVIÇOS ---
+builder.Services.AddScoped<EventoService>();
+builder.Services.AddScoped<UsuarioService>();
 
 var app = builder.Build();
 
@@ -16,16 +28,17 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
-
 app.UseAntiforgery();
 
 app.MapStaticAssets();
+
 app.MapRazorComponents<App>()
-    .AddInteractiveWebAssemblyRenderMode();
+    .AddInteractiveWebAssemblyRenderMode()
+    .AddInteractiveServerRenderMode(); // Mantendo o seu suporte a Server Mode
 
 app.Run();

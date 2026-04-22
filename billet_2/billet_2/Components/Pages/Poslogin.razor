@@ -1,0 +1,110 @@
+@page "/poslogin"
+@using billet_2.Models
+@inject billet_2.Services.EventoService EventoService
+@inject NavigationManager Navigation
+
+@* --- 1. BARRA DE NAVEGAÇÃO --- *@
+<nav class="navbar-top">
+    <a href="/poslogin" class="brand-button">BiLleT*</a>
+
+    <div class="nav-actions-right">
+        @* Aqui o dev da API pode colocar um @if(user.IsAdmin) depois *@
+        <a href="/criarevento" class="nav-action-button create-btn">
+            Criar Evento ➕
+        </a>
+        <a href="/meusingressos" class="nav-action-button">
+            Meus Ingressos 🎫
+        </a>
+    </div>
+</nav>
+
+@* --- 2. SEÇÃO HERO (BANNER DINÂMICO) --- *@
+@if (eventoDestaque != null)
+{
+    <div class="hero-container">
+        @* Imagem de fundo desfocada - Puxando do Banco *@
+        <img src="/images/eventos/@(string.IsNullOrEmpty(eventoDestaque.FotoUrl) ? "default.jpg" : eventoDestaque.FotoUrl)"
+             class="img-fundo-blur" alt="Fundo" />
+
+        <div class="card-frente-container">
+            <img src="/images/eventos/@(string.IsNullOrEmpty(eventoDestaque.FotoUrl) ? "default.jpg" : eventoDestaque.FotoUrl)"
+                 class="img-card-frente" alt="@eventoDestaque.Nome" />
+            
+            <div class="card-frente-info">
+                <h3>@eventoDestaque.Nome</h3>
+                <p>Destaque • @eventoDestaque.Data.ToString("dd/MM/yyyy")</p>
+            </div>
+        </div>
+    </div>
+}
+
+@* --- 3. SEÇÃO DE EVENTOS --- *@
+<section class="events-section">
+    <div class="container py-5">
+        <h2 class="section-title">Nossos eventos 🤓</h2>
+        
+        <div class="row g-4">
+            @if (eventos == null)
+            {
+                <div class="col-12 text-center">
+                    <p class="text-muted">Sincronizando eventos com o banco...</p>
+                </div>
+            }
+            else if (!eventos.Any())
+            {
+                <div class="col-12 text-center">
+                    <p class="text-muted">Nenhum evento cadastrado no momento.</p>
+                </div>
+            }
+            else
+            {
+                @foreach (var ev in eventos)
+                {
+                    <div class="col-12 col-md-4">
+                        <div class="event-card shadow-sm">
+                            <div class="event-img-cap">
+                                @if (!string.IsNullOrEmpty(ev.FotoUrl))
+                                {
+                                    <img src="/images/eventos/@ev.FotoUrl" alt="@ev.Nome" style="width:100%; height:100%; object-fit:cover;" />
+                                }
+                                else
+                                {
+                                    <span>FOTO DO EVENTO</span>
+                                }
+                            </div>
+                            <div class="event-card-body">
+                                <h5>@ev.Nome</h5>
+                                <p>@ev.Descricao</p>
+                                <small>@ev.Local - @ev.Data.ToString("dd/MM/yyyy")</small>
+                                
+                                @* Passando o ID real do banco para a página de vendas *@
+                                <a href="/vendas/@ev.Id" class="event-link">Garantir Ingressos →</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>
+
+<footer class="site-footer">
+    <p>&copy; 2026 Billet - Todos os direitos reservados.</p>
+</footer>
+
+@code {
+    private List<Evento>? eventos;
+    private Evento? eventoDestaque;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // 1. Busca os dados reais usando o Service do Git
+        eventos = await EventoService.ListarEventosAsync();
+
+        // 2. Define o primeiro evento da lista como o destaque do banner Hero
+        if (eventos != null && eventos.Any())
+        {
+            eventoDestaque = eventos.FirstOrDefault();
+        }
+    }
+}

@@ -1,13 +1,12 @@
-﻿<style >
-/* IMPORTANTE: Mantendo a fonte para esta página */
-@@font-face {
+﻿/* --- 1. FONTE --- */
+@font-face {
     font-family: 'TanNimbus';
     src: url('/fonts/Tan-Nimbus.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
 
-/* Estilo do Topo Centralizado */
+/* --- 2. BARRA DE TOPO --- */
 .navbar-top {
     padding: 40px 0 20px 0;
     background: white;
@@ -20,25 +19,19 @@
     font-family: 'TanNimbus', sans-serif;
     font-size: 2.8rem;
     color: #808080;
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    letter-spacing: -1px;
-    /* ADICIONE ESTAS DUAS LINHAS ABAIXO: */
-    text-decoration: none !important; /* Remove o sublinhado de link */
+    text-decoration: none !important;
     display: inline-block;
+    transition: all 0.3s ease;
 }
 
     .brand-button:hover {
         color: #444;
         transform: scale(1.05);
-        text-decoration: none !important; /* Garante que não apareça no hover */
     }
 
-/* Layout da Página */
+/* --- 3. LAYOUT --- */
 .registration-container {
-    min-height: 70vh; /* Ajustado para não ficar sobrando muito espaço */
+    min-height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,16 +45,17 @@
     border-radius: 20px;
     width: 100%;
     max-width: 450px;
-    border: 1px solid #f0f0f0; /* Borda bem sutil */
+    border: 1px solid #f0f0f0;
 }
 
-/* Inputs Personalizados */
+/* --- 4. INPUTS --- */
 .custom-input {
     border-radius: 8px;
     padding: 12px 15px;
     border: 1px solid #e0e0e0;
     transition: all 0.3s ease;
     background-color: #f9f9f9;
+    width: 100%;
 }
 
     .custom-input:focus {
@@ -71,4 +65,57 @@
         outline: none;
     }
 
-</style >
+/* --- 5. BOTÃO FINALIZAR --- */
+.btn-finalizar {
+    width: 100%;
+    padding: 15px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    .btn-finalizar:hover {
+        background-color: #000;
+        transform: translateY(-2px);
+    }
+
+/* --- 6. ANIMAÇÃO --- */
+.admin-field-animation {
+    animation: fadeIn 0.3s ease-out;
+}
+
+
+/* --- 7. alertas apit--- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert {
+    border-radius: 10px;
+    font-size: 0.9rem;
+    border: none;
+    margin-bottom: 20px;
+}
+
+.alert-danger {
+    background-color: #fff5f5;
+    color: #c53030;
+}
+
+.alert-success {
+    background-color: #f0fff4;
+    color: #2f855a;
+}

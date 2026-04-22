@@ -1,0 +1,31 @@
+using System.Net.Http.Json;
+using billet_2.Models;
+
+namespace billet_2.Services;
+
+public class EventoService
+{
+    private readonly HttpClient _http;
+
+    public EventoService(HttpClient http)
+    {
+        _http = http;
+    }
+
+    public async Task<List<Evento>?> ListarEventosAsync()
+    {
+        return await _http.GetFromJsonAsync<List<Evento>>("api/eventos/listar");
+    }
+
+    public async Task<Evento?> BuscarPorIdAsync(int id)
+    {
+        return await _http.GetFromJsonAsync<Evento>($"api/eventos/listar/{id}");
+    }
+
+    // ADICIONE ESTE AQUI PARA A SUA PÁGINA DE CRIAR EVENTOS FUNCIONAR
+    public async Task<bool> CriarEventoAsync(Evento novoEvento)
+    {
+        var response = await _http.PostAsJsonAsync("api/eventos/cadastrar", novoEvento);
+        return response.IsSuccessStatusCode;
+    }
+}
