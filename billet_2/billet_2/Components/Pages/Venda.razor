@@ -25,12 +25,12 @@ else
     @* --- 2. SEÇÃO DO BANNER PRINCIPAL DINÂMICO --- *@
     <div class="hero-container">
         @* Fundo desfocado dinâmico *@
-        <img src="/images/eventos/@(string.IsNullOrEmpty(evento.FotoUrl) ? "default.jpg" : evento.FotoUrl)"
+        <img src="@(string.IsNullOrEmpty(evento.FotoUrl) ? "default.jpg" : evento.FotoUrl)"
              class="img-fundo-blur" alt="Fundo Desfocado" />
 
         <div class="card-frente-container">
             <div class="photo-column">
-                <img src="/images/eventos/@(string.IsNullOrEmpty(evento.FotoUrl) ? "default.jpg" : evento.FotoUrl)"
+                <img src="@(string.IsNullOrEmpty(evento.FotoUrl) ? "default.jpg" : evento.FotoUrl)"
                      class="img-card-frente" alt="@evento.Nome" />
             </div>
 

@@ -1,6 +1,7 @@
 @page "/criarevento"
 @using billet_2.Models
 @using Microsoft.AspNetCore.Components.Forms
+@rendermode RenderMode.InteractiveServer
 @inject billet_2.Services.EventoService EventoService
 @inject NavigationManager Navigation
 
@@ -21,7 +22,7 @@
             </div>
         }
 
-        <EditForm Model="novoEvento" OnValidSubmit="SalvarEvento" class="create-form">
+        <EditForm Model="novoEvento" OnValidSubmit="SalvarEvento" class="create-form" FormName="CadastroEvento">
             <DataAnnotationsValidator />
 
             @* Título (Mapeado para Nome) *@
@@ -82,7 +83,7 @@
 </footer>
 
 @code {
-    private Evento novoEvento = new Evento { Data = DateTime.Now };
+    private Evento novoEvento = new();
     private bool estaProcessando = false;
     private bool exibirSucesso = false;
 

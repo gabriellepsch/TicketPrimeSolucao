@@ -1,5 +1,4 @@
-﻿<style >
-/* 1. FONTE PERSONALIZADA */
+﻿/* 1. FONTE PERSONALIZADA */
 @font-face {
     font-family: 'TanNimbus';
     src: url('/fonts/Tan-Nimbus.otf') format('opentype');
@@ -177,6 +176,10 @@
     letter-spacing: 2px;
 }
 
+.sector-price{
+    color: white;
+}
+
 /* ESTILOS DOS CARDS (VIP/NORMAL) */
 .vip-card {
     background-color: #FFD700;
@@ -208,5 +211,3 @@
     padding: 3rem;
     text-align: center;
 }
-
-</style >

@@ -23,11 +23,11 @@
 {
     <div class="hero-container">
         @* Imagem de fundo desfocada - Puxando do Banco *@
-        <img src="/images/eventos/@(string.IsNullOrEmpty(eventoDestaque.FotoUrl) ? "default.jpg" : eventoDestaque.FotoUrl)"
+        <img src="@(string.IsNullOrEmpty(eventoDestaque.FotoUrl) ? "default.jpg" : eventoDestaque.FotoUrl)"
              class="img-fundo-blur" alt="Fundo" />
 
         <div class="card-frente-container">
-            <img src="/images/eventos/@(string.IsNullOrEmpty(eventoDestaque.FotoUrl) ? "default.jpg" : eventoDestaque.FotoUrl)"
+            <img src="@(string.IsNullOrEmpty(eventoDestaque.FotoUrl) ? "default.jpg" : eventoDestaque.FotoUrl)"
                  class="img-card-frente" alt="@eventoDestaque.Nome" />
             
             <div class="card-frente-info">
@@ -65,7 +65,7 @@
                             <div class="event-img-cap">
                                 @if (!string.IsNullOrEmpty(ev.FotoUrl))
                                 {
-                                    <img src="/images/eventos/@ev.FotoUrl" alt="@ev.Nome" style="width:100%; height:100%; object-fit:cover;" />
+                                    <img src="@ev.FotoUrl" alt="@ev.Nome" style="width:100%; height:100%; object-fit:cover;" />
                                 }
                                 else
                                 {
