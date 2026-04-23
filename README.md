@@ -4,7 +4,12 @@ Resolução da avaliação referente à matéria de **Engenharia de Software (UN
 
 Sistema de venda de ingressos composto por uma API backend e um frontend web, desenvolvidos em C# com .NET 10.
 
----
+Integrantes 
+Gabriel Lepsch Monteiro 02001770
+Lucas Oliveira 06010486
+Gabriel Castor 06009642
+Thiago Zandonade Fernandes 06010263
+Gabriel Ribeiro 06010603
 
 ## Tecnologias
 
