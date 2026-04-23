@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "ZNXEXUuYyws=",
+  "dgSpecHash": "pwQD60klHl4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Administrador\\Downloads\\TicketPrimeSolucao-front-atualizado-novas-paginas\\TicketPrimeSolucao-front-atualizado-novas-paginas\\billet_2\\billet_2\\billet_2.csproj",
+  "projectFilePath": "C:\\Users\\gabri\\Documents\\TicketPrimeSolucao\\billet_2\\billet_2\\billet_2.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Administrador\\.nuget\\packages\\microsoft.aspnetcore.app.internal.assets\\10.0.7\\microsoft.aspnetcore.app.internal.assets.10.0.7.nupkg.sha512",
-    "C:\\Users\\Administrador\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly\\10.0.5\\microsoft.aspnetcore.components.webassembly.10.0.5.nupkg.sha512",
-    "C:\\Users\\Administrador\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.server\\10.0.5\\microsoft.aspnetcore.components.webassembly.server.10.0.5.nupkg.sha512",
-    "C:\\Users\\Administrador\\.nuget\\packages\\microsoft.jsinterop.webassembly\\10.0.5\\microsoft.jsinterop.webassembly.10.0.5.nupkg.sha512"
+    "C:\\Users\\gabri\\.nuget\\packages\\microsoft.aspnetcore.app.internal.assets\\10.0.5\\microsoft.aspnetcore.app.internal.assets.10.0.5.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly\\10.0.5\\microsoft.aspnetcore.components.webassembly.10.0.5.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.server\\10.0.5\\microsoft.aspnetcore.components.webassembly.server.10.0.5.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\microsoft.jsinterop.webassembly\\10.0.5\\microsoft.jsinterop.webassembly.10.0.5.nupkg.sha512"
   ],
   "logs": []
 }

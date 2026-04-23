@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Administrador\\Downloads\\TicketPrimeSolucao-front-atualizado-novas-paginas\\TicketPrimeSolucao-front-atualizado-novas-paginas\\billet_2\\billet_2\\billet_2.csproj": {}
+    "C:\\Users\\gabri\\Documents\\TicketPrimeSolucao\\billet_2\\billet_2\\billet_2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Administrador\\Downloads\\TicketPrimeSolucao-front-atualizado-novas-paginas\\TicketPrimeSolucao-front-atualizado-novas-paginas\\billet_2\\billet_2\\billet_2.csproj": {
+    "C:\\Users\\gabri\\Documents\\TicketPrimeSolucao\\billet_2\\billet_2\\billet_2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Administrador\\Downloads\\TicketPrimeSolucao-front-atualizado-novas-paginas\\TicketPrimeSolucao-front-atualizado-novas-paginas\\billet_2\\billet_2\\billet_2.csproj",
+        "projectUniqueName": "C:\\Users\\gabri\\Documents\\TicketPrimeSolucao\\billet_2\\billet_2\\billet_2.csproj",
         "projectName": "billet_2",
-        "projectPath": "C:\\Users\\Administrador\\Downloads\\TicketPrimeSolucao-front-atualizado-novas-paginas\\TicketPrimeSolucao-front-atualizado-novas-paginas\\billet_2\\billet_2\\billet_2.csproj",
-        "packagesPath": "C:\\Users\\Administrador\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Administrador\\Downloads\\TicketPrimeSolucao-front-atualizado-novas-paginas\\TicketPrimeSolucao-front-atualizado-novas-paginas\\billet_2\\billet_2\\obj\\",
+        "projectPath": "C:\\Users\\gabri\\Documents\\TicketPrimeSolucao\\billet_2\\billet_2\\billet_2.csproj",
+        "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\gabri\\Documents\\TicketPrimeSolucao\\billet_2\\billet_2\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Administrador\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\gabri\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -53,7 +47,7 @@
             "Microsoft.AspNetCore.App.Internal.Assets": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[10.0.7, )",
+              "version": "[10.0.5, )",
               "autoReferenced": true
             },
             "Microsoft.AspNetCore.Components.WebAssembly.Server": {
@@ -80,7 +74,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
