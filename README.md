@@ -10,6 +10,7 @@ Lucas Oliveira 06010486
 Gabriel Castor 06009642
 Thiago Zandonade Fernandes 06010263
 Gabriel Ribeiro 06010603
+Luiz Eduardo P. Rosa 06010412
 
 ## Tecnologias
 
