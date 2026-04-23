@@ -20,6 +20,12 @@ public class EventoService
     public async Task<Evento?> BuscarPorIdAsync(int id)
     {
         return await _http.GetFromJsonAsync<Evento>($"api/eventos/listar/{id}");
-    }   
-}
+    }
 
+    // ADICIONE ESTE AQUI PARA A SUA PÁGINA DE CRIAR EVENTOS FUNCIONAR
+    public async Task<bool> CriarEventoAsync(Evento novoEvento)
+    {
+        var response = await _http.PostAsJsonAsync("api/eventos/cadastrar", novoEvento);
+        return response.IsSuccessStatusCode;
+    }
+}
