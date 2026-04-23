@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using billet_2.Models
 @inject billet_2.Services.EventoService EventoService
 
 <div class="page-container">
@@ -7,7 +8,7 @@
         <div class="video-wrapper">
             <video autoplay loop muted playsinline class="video-element">
                 <source src="videos/video1.mp4" type="video/mp4" />
-                Seu navegador não suporta vídeos. 
+                Seu navegador não suporta vídeos.
             </video>
             <div class="video-overlay"></div>
         </div>
@@ -25,39 +26,50 @@
         </div>
     </section>
 
-    @* --- SEÇÃO 2: EVENTOS --- *@
+    @* --- SEÇÃO 2: EVENTOS DINÂMICOS --- *@
     <section class="events-section">
         <div class="container py-5">
             <h2 class="section-title">Nossos eventos ↷</h2>
-                <div class="row g-4">
-                            @if (eventos == null)
-                            {
-                                <p>Carregando eventos...</p>
-                            }
-                            else if (!eventos.Any())
-                            {
-                                <p>Nenhum evento encontrado.</p>
-                            }
-                            else
-                            {
-                                @foreach (var evento in eventos)
-                                {
-
-                                    <div class="col-12 col-md-4">                      
-                                        <div class="event-card shadow-sm">
-                                            <div class="event-img-cap"><img src="@evento.FotoUrl" alt="@evento.Nome"></div>
-                                                <div class="event-card-body">                                           
-                                                    <h4>@evento.Nome</h4>
-                                                    <p>📅 @evento.Data.ToString("dd/MM/yyyy")</p> 
-                                                    <p>📍 @evento.Local</p>
-                                                    <p>💰 R$ @evento.ValorIngresso.ToString("F2")</p>
-                                                    <a href="/vendas/@evento.Id" class="event-link">Ver ingressos →</a>
-                                                </div>
-                                        </div>
-                                    </div>
-                                }
-                            }                                                    
-                </div>
+            
+            <div class="row g-4">
+                @if (eventos == null)
+                {
+                    @* Shimmer ou Loading enquanto a API não responde *@
+                    <p class="text-center w-100">Carregando eventos incríveis...</p>
+                }
+                else if (!eventos.Any())
+                {
+                    <p class="text-center w-100">Nenhum evento disponível no momento. Volte logo!</p>
+                }
+                else
+                {
+                    @foreach (var evento in eventos)
+                    {
+                        <div class="col-12 col-md-4">
+                            <div class="event-card shadow-sm">
+                                <div class="event-img-cap">
+                                    @if (!string.IsNullOrEmpty(evento.FotoUrl))
+                                    {
+                                        <img src="@evento.FotoUrl" alt="@evento.Nome" style="width:100%; height:100%; object-fit:cover;" />
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">FOTO DO EVENTO</span>
+                                    }
+                                </div>
+                                <div class="event-card-body">
+                                    <h5>@evento.Nome</h5>
+                                    <p>@evento.Descricao</p>
+                                    <small>📍 @evento.Local - @evento.Data.ToString("dd/MM/yyyy")</small>
+                                    
+                                    @* Como é a Home (sem login), mandamos para o Cadastro ou Venda detalhada *@
+                                    <a href="/vendas/@evento.Id" class="event-link">Ver ingressos →</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
         </div>
     </section>
 
@@ -66,11 +78,13 @@
         <p>&copy; 2026 Billet - Todos os direitos reservados.</p>
     </footer>
 </div>
+
 @code {
-    private List<billet_2.Models.Evento>? eventos;
+    private List<Evento>? eventos;
 
     protected override async Task OnInitializedAsync()
     {
+        // Puxa os dados reais da API/Banco via Service do Git
         eventos = await EventoService.ListarEventosAsync();
     }
 }

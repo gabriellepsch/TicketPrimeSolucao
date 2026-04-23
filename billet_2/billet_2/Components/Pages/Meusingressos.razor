@@ -1,0 +1,118 @@
+@page "/meusingressos"
+@using billet_2.Models
+@using Microsoft.AspNetCore.Components.Web
+@rendermode RenderMode.InteractiveServer
+@inject NavigationManager Navigation
+
+@* --- 1. NAVBAR PADRÃO --- *@
+<nav class="navbar-top">
+    <a href="/poslogin" class="brand-button">
+        BiLleT*
+    </a>
+</nav>
+
+@* --- 2. CONTEÚDO DOS INGRESSOS --- *@
+<main class="tickets-wrapper">
+    <div class="tickets-container">
+        <h1 class="tickets-title">Meus Ingressos</h1>
+
+        @if (carrinho.Any())
+        {
+            @foreach (var item in carrinho)
+            {
+                <div class="ticket-item">
+                    @* Miniatura do Evento (Usando FotoUrl do Git) *@
+                    <div class="ticket-img-box">
+                        <img src="/images/eventos/@(string.IsNullOrEmpty(item.EventoComprado.FotoUrl) ? "default.jpg" : item.EventoComprado.FotoUrl)"
+                             alt="@item.EventoComprado.Nome" />
+                    </div>
+
+                    @* Detalhes do Ingresso (Mapeado para o Model do Git) *@
+                    <div class="ticket-info">
+                        <h3>@item.EventoComprado.Nome</h3>
+                        <p class="ticket-meta">@item.EventoComprado.Local • @item.EventoComprado.Data.ToString("HH:mm")h</p>
+                        <div class="ticket-badge-row">
+                            @* O setor é uma informação que você criou no front *@
+                            <span class="badge-sector @(item.Setor == "VIP" ? "vip-gold" : "normal-silver")">
+                                SETOR @item.Setor @(item.Setor == "VIP" ? "👑" : "🎫")
+                            </span>
+                            <span class="ticket-date">@item.EventoComprado.Data.ToString("dd/MM/yyyy")</span>
+                        </div>
+                    </div>
+
+                    @* Preço e Ações *@
+                    <div class="ticket-action-price">
+                        <span class="ticket-price">R$ @item.PrecoFinal.ToString("N2")</span>
+                        <button class="btn-remove" @onclick="() => RemoverDoCarrinho(item.IdCompra)">Remover</button>
+                    </div>
+                </div>
+            }
+
+            @* --- RESUMO E FINALIZAÇÃO --- *@
+            <div class="checkout-summary">
+                <div class="summary-line">
+                    <span>Subtotal</span>
+                    <span>R$ @CalcularTotal().ToString("N2")</span>
+                </div>
+                <div class="summary-line total">
+                    <span>TOTAL</span>
+                    <span>R$ @CalcularTotal().ToString("N2")</span>
+                </div>
+                
+                <div class="action-buttons">
+                    <button @onclick="IrParaVendas" class="btn-add-more">Adicionar mais eventos</button>
+                    <button class="btn-checkout">Finalizar Compra</button>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <h2 style="color: #666;">Seu carrinho está vazio.</h2>
+                <button @onclick="IrParaVendas" class="btn-add-more mt-3">Ver Eventos Disponíveis</button>
+            </div>
+        }
+    </div>
+</main>
+
+<footer class="site-footer">
+    <p>&copy; 2026 Billet - Todos os direitos reservados.</p>
+</footer>
+
+@code {
+    // 1. Criamos um "Wrapper". Ele une o Evento do Git com informações da compra (Setor)
+    public class ItemCarrinho
+    {
+        public Guid IdCompra { get; set; } = Guid.NewGuid();
+        public Evento EventoComprado { get; set; } = new();
+        public string Setor { get; set; } = "NORMAL";
+        public float PrecoFinal { get; set; }
+    }
+
+    // 2. Simulamos a lista usando o Model oficial do Git
+    private List<ItemCarrinho> carrinho = new List<ItemCarrinho>
+    {
+        new ItemCarrinho
+        {
+            Setor = "VIP",
+            PrecoFinal = 450.00f,
+            EventoComprado = new Evento
+            {
+                Nome = "William Bonner: A Experiência",
+                Local = "Teatro Municipal",
+                Data = DateTime.Now.AddDays(5),
+                FotoUrl = "bonner.webp"
+            }
+        }
+    };
+
+    private void RemoverDoCarrinho(Guid id)
+    {
+        var item = carrinho.FirstOrDefault(x => x.IdCompra == id);
+        if (item != null) carrinho.Remove(item);
+    }
+
+    private float CalcularTotal() => carrinho.Sum(x => x.PrecoFinal);
+
+    private void IrParaVendas() => Navigation.NavigateTo("/poslogin");
+}
