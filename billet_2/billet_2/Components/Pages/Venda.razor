@@ -3,6 +3,8 @@
 @inject billet_2.Services.EventoService EventoService
 @inject NavigationManager Navigation
 @inject billet_2.Services.AuthService AuthService
+@rendermode RenderMode.InteractiveServer
+@inject HttpClient Http
 
 @* --- 1. BARRA DE NAVEGAÇÃO --- *@
 <nav class="navbar-top">
@@ -123,8 +125,7 @@ else
 
     private void SelecionarIngresso(string setor, float preco)
     {
-        // Aqui o "Cara da API" vai salvar no carrinho/banco
-        // Por enquanto, redirecionamos para os ingressos
-        Navigation.NavigateTo("/meusingressos");
+        var dados = $"{evento?.Id}|{setor}|{preco}";
+        Navigation.NavigateTo($"/meusingressos?comprar={dados}");
     }
 }

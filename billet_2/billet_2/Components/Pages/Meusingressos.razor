@@ -3,6 +3,7 @@
 @using Microsoft.AspNetCore.Components.Web
 @rendermode RenderMode.InteractiveServer
 @inject NavigationManager Navigation
+@inject billet_2.Services.EventoService EventoService
 
 @* --- 1. NAVBAR PADRÃO --- *@
 <nav class="navbar-top">
@@ -80,7 +81,7 @@
 </footer>
 
 @code {
-    // 1. Criamos um "Wrapper". Ele une o Evento do Git com informações da compra (Setor)
+    [Parameter] public string? Comprar { get; set; }
     public class ItemCarrinho
     {
         public Guid IdCompra { get; set; } = Guid.NewGuid();
@@ -88,23 +89,39 @@
         public string Setor { get; set; } = "NORMAL";
         public float PrecoFinal { get; set; }
     }
+    private List<ItemCarrinho> carrinho = new ();
 
-    // 2. Simulamos a lista usando o Model oficial do Git
-    private List<ItemCarrinho> carrinho = new List<ItemCarrinho>
+    protected override async Task OnParametersSetAsync()
     {
-        new ItemCarrinho
+        if (!string.IsNullOrEmpty(Comprar))
         {
-            Setor = "VIP",
-            PrecoFinal = 450.00f,
-            EventoComprado = new Evento
+            var partes = Comprar.Split('|');
+            if (partes.Length == 3)
             {
-                Nome = "William Bonner: A Experiência",
-                Local = "Teatro Municipal",
-                Data = DateTime.Now.AddDays(5),
-                FotoUrl = "bonner.webp"
+                int eventoId = int.Parse(partes[0]);
+                string setor = partes[1];
+                float preco = float.Parse(partes[2]);
+
+                var evento = await EventoService.BuscarPorIdAsync(eventoId);
+                
+                 if (evento != null)
+                {
+                    var novoItem = new ItemCarrinho
+                    {
+                        IdCompra = Guid.NewGuid(),
+                        EventoComprado = evento,
+                        Setor = setor,
+                        PrecoFinal = preco
+                    };
+                    
+                    carrinho.Add(novoItem);
+                }
+                
+                Navigation.NavigateTo("/meusingressos", replace: true);
             }
         }
-    };
+         StateHasChanged();
+    }
 
     private void RemoverDoCarrinho(Guid id)
     {
