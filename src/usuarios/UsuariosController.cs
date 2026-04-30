@@ -12,6 +12,14 @@ public static class UsuariosController{
     public static void CadastrarUsuarios(this WebApplication app){
         app.MapPost("/api/usuarios/cadastrar", (Usuario novoUsuario) => 
         {
+            if(novoUsuario.Cpf.Length != 11){
+                return Results.BadRequest("O cpf deve ter 11 caracteres");
+            }
+
+            if(novoUsuario.Senha.Length < 6){
+                return Results.BadRequest("A senha deve ter pelo menos 6 caracteres");
+            }
+            
             if(Usuarios.Any(u => u.Cpf == novoUsuario.Cpf)){
                 return Results.BadRequest("O cpf informado já está cadastrado");
             }

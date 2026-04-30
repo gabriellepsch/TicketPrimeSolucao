@@ -24,6 +24,10 @@ public static class EventosController{
                 return Results.BadRequest("O nome de evento informado já está cadastrado");
             }
 
+            if(novoEvento.Data < DateTime.Now){
+                return Results.BadRequest("A data do evento não pode ser antiga, coloque uma data futura!");
+            }
+
             novoEvento.Id = idAtual;
             idAtual++;
 
@@ -31,7 +35,7 @@ public static class EventosController{
             return Results.Ok(novoEvento);
         });
     }
-    
+     
 }
 
 public class Evento{
