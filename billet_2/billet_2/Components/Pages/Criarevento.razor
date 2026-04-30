@@ -21,6 +21,12 @@
                 🎉 Evento publicado com sucesso!
             </div>
         }
+        
+        @if(exibirErro){
+            <div class="alert alert-danger text-center">
+                @mensagemErro
+            </div>
+        }
 
         <EditForm Model="novoEvento" OnValidSubmit="SalvarEvento" class="create-form" FormName="CadastroEvento">
             <DataAnnotationsValidator />
@@ -86,24 +92,27 @@
     private Evento novoEvento = new();
     private bool estaProcessando = false;
     private bool exibirSucesso = false;
+    private bool exibirErro = false;
+    private string mensagemErro = "";
 
     private async Task SalvarEvento()
     {
         estaProcessando = true;
 
-        // Chama o Service do Git para salvar no Banco de Dados Real
-        var sucesso = await EventoService.CriarEventoAsync(novoEvento);
+        var response = await EventoService.CriarEventoAsync(novoEvento);
 
-        if (sucesso)
+        if (string.IsNullOrEmpty(response))
         {
+            exibirErro = false;
             exibirSucesso = true;
             StateHasChanged();
             await Task.Delay(2000);
             Navigation.NavigateTo("/poslogin");
         }
         else
-        {
-            // Opcional: Tratar erro de banco de dados aqui
+        {         
+            exibirErro = true;
+            mensagemErro = response;
             estaProcessando = false;
         }
     }

@@ -1,4 +1,3 @@
-<style >
 /* ============================================================
    1. BASE E FONTES
    ============================================================ */
@@ -228,4 +227,73 @@ html, body {
     text-align: center;
 }
 
-</style >
+/* ============================================================
+   DROPDOWN DE PERFIL
+   ============================================================ */
+
+.profile-wrapper {
+    position: relative;
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    background: #1e1e1e;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    min-width: 220px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    animation: fadeDown 0.2s ease;
+}
+
+@keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-header {
+    padding-bottom: 8px;
+}
+
+.dropdown-nome {
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.dropdown-email {
+    color: #aaa;
+    font-size: 0.78rem;
+    margin: 2px 0 0;
+}
+
+.dropdown-divider {
+    border-color: rgba(255, 255, 255, 0.1);
+    margin: 10px 0;
+}
+
+.dropdown-item-sair {
+    width: 100%;
+    background: transparent;
+    border: 1px solid rgba(255, 99, 99, 0.4);
+    color: #ff6b6b;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.dropdown-item-sair:hover {
+    background: #ff6b6b;
+    color: #fff;
+    border-color: #ff6b6b;
+}

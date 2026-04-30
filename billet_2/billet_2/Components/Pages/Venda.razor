@@ -2,15 +2,12 @@
 @using billet_2.Models
 @inject billet_2.Services.EventoService EventoService
 @inject NavigationManager Navigation
+@inject billet_2.Services.AuthService AuthService
 
 @* --- 1. BARRA DE NAVEGAÇÃO --- *@
 <nav class="navbar-top">
     @* Redireciona para poslogin para manter o fluxo de usuário logado *@
     <a href="/poslogin" class="brand-button"> BiLleT* </a>
-
-    <a href="/meusingressos" class="nav-ticket-button">
-        <span>Meus Ingressos</span> 🎫
-    </a>
 </nav>
 
 @if (evento == null)
@@ -66,26 +63,44 @@ else
     @* --- 3. SEÇÃO DE SETORES --- *@
     <section class="sectors-section">
         <div class="sectors-container">
-            
-            @* QUADRADO VIP *@
-            @* Aqui simulamos um valor VIP (ex: +50%) já que o model do Git tem apenas um valor base *@
-            <div class="sector-card vip-card" @onclick='() => SelecionarIngresso("VIP", (float)(evento.ValorIngresso * 1.5))'>
-                <div class="sector-card-inner">
-                    <span class="sector-emoji">👑</span>
-                    <span class="sector-label">VIP</span>
-                    <span class="sector-price">R$ @((evento.ValorIngresso * 1.5).ToString("N2"))</span>
-                </div>
-            </div>
+            @if(AuthService.EstaLogado){
+                @* QUADRADO VIP *@
+                @if(!AuthService.UsuarioLogado.Adm){
+                    <div class="sector-card vip-card" @onclick='() => SelecionarIngresso("VIP", (float)(evento.ValorIngresso * 1.5))'>
+                        <div class="sector-card-inner">
+                            <span class="sector-emoji">👑</span>
+                            <span class="sector-label">VIP</span>
+                            <span class="sector-price">R$ @((evento.ValorIngresso * 1.5).ToString("N2"))</span>
+                        </div>
+                    </div>
 
-            @* QUADRADO PADRÃO *@
-            <div class="sector-card normal-card" @onclick='() => SelecionarIngresso("NORMAL", evento.ValorIngresso)'>
-                <div class="sector-card-inner">
-                    <span class="sector-emoji">🎫</span>
-                    <span class="sector-label">NORMAL</span>
-                    <span class="sector-price">R$ @evento.ValorIngresso.ToString("N2")</span>
-                </div>
-            </div>
+                    @* QUADRADO PADRÃO *@
+                    <div class="sector-card normal-card" @onclick='() => SelecionarIngresso("NORMAL", evento.ValorIngresso)'>
+                        <div class="sector-card-inner">
+                            <span class="sector-emoji">🎫</span>
+                            <span class="sector-label">NORMAL</span>
+                            <span class="sector-price">R$ @evento.ValorIngresso.ToString("N2")</span>
+                        </div>
+                    </div>
+                }
+            }else{
+                <div class="sector-card vip-card" @onclick='() => SelecionarIngresso("VIP", (float)(evento.ValorIngresso * 1.5))'>
+                        <div class="sector-card-inner">
+                            <span class="sector-emoji">👑</span>
+                            <span class="sector-label">VIP</span>
+                            <span class="sector-price">R$ @((evento.ValorIngresso * 1.5).ToString("N2"))</span>
+                        </div>
+                    </div>
 
+                    @* QUADRADO PADRÃO *@
+                    <div class="sector-card normal-card" @onclick='() => SelecionarIngresso("NORMAL", evento.ValorIngresso)'>
+                        <div class="sector-card-inner">
+                            <span class="sector-emoji">🎫</span>
+                            <span class="sector-label">NORMAL</span>
+                            <span class="sector-price">R$ @evento.ValorIngresso.ToString("N2")</span>
+                        </div>
+                    </div>
+            }
         </div>
     </section>
 }

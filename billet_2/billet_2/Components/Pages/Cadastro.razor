@@ -4,6 +4,7 @@
 @rendermode RenderMode.InteractiveServer
 @inject NavigationManager Navigation
 @inject billet_2.Services.UsuarioService UsuarioService
+@inject billet_2.Services.AuthService AuthService
 
 @* --- 1. BARRA DE TOPO --- *@
 <nav class="navbar-top">
@@ -52,57 +53,40 @@
                     <InputText @bind-Value="usuario.Senha" type="password" class="form-control custom-input" placeholder="Senha segura" />
                 </div>
 
-                @* --- LÓGICA DE ADMIN (SEU DIFERENCIAL) --- *@
                 <div class="mb-4 d-flex align-items-center gap-2">
                     <input type="checkbox" id="checkAdmin" @bind="isAdmin" style="width: 18px; height: 18px; cursor: pointer;" />
-                    <label for="checkAdmin" class="fw-semibold m-0" style="cursor: pointer; color: #555;">Sou Administrador</label>
+                    <label for="checkAdmin" class="fw-semibold m-0" style="cursor: pointer; color: #555;">Vou criar eventos</label>
                 </div>
-
-                @if (isAdmin)
-                {
-                    <div class="mb-4 admin-field-animation">
-                        <label class="form-label fw-bold" style="color: #808080;">CHAVE SECRETA</label>
-                        <input type="password" class="form-control custom-input" placeholder="Chave Mestra"
-                               @bind="adminSecretInput" @bind:event="oninput" />
-                    </div>
-                }
 
                 <button type="submit" class="btn-finalizar" disabled="@carregando">
                     @(carregando ? "Processando..." : "Finalizar Cadastro")
                 </button>
             </EditForm>
+
+            <p>Já possui cadastro? <a href="/login">Clique Aqui!</a></p>
         }
     </div>
 </div>
 
 @code {
-    private Usuario usuario = new(); // Model do Git
+    private Usuario usuario = new();
     private bool isAdmin = false;
-    private string adminSecretInput = "";
     private string mensagemErro = "";
     private bool cadastroSucesso = false;
     private bool carregando = false;
-
-    private const string MASTER_KEY = "BILLET2026";
-
     private async Task HandleCadastro()
     {
         mensagemErro = "";
-        
-        // 1. Validação da sua chave de Admin antes de chamar a API
-        if (isAdmin && adminSecretInput != MASTER_KEY)
-        {
-            mensagemErro = "Chave mestra incorreta!";
-            return;
-        }
 
         carregando = true;
 
-        // 2. Chama o Service do Git para salvar no Banco de Dados
+        usuario.Adm = isAdmin;
+
         var erroRetornado = await UsuarioService.CadastrarAsync(usuario);
 
         if (string.IsNullOrEmpty(erroRetornado))
         {
+            AuthService.Logar(usuario);
             cadastroSucesso = true;
             StateHasChanged();
             await Task.Delay(1500);
