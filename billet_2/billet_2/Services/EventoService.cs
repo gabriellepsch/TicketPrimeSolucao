@@ -23,9 +23,27 @@ public class EventoService
     }
 
     // ADICIONE ESTE AQUI PARA A SUA PÁGINA DE CRIAR EVENTOS FUNCIONAR
-    public async Task<bool> CriarEventoAsync(Evento novoEvento)
+    public async Task<string?> CriarEventoAsync(Evento novoEvento)
     {
-        var response = await _http.PostAsJsonAsync("api/eventos/cadastrar", novoEvento);
-        return response.IsSuccessStatusCode;
+        try
+        {
+            var response = await _http.PostAsJsonAsync("api/eventos/cadastrar", novoEvento);
+            
+            if (response.IsSuccessStatusCode)
+                {
+                    return null; // Sucesso!
+                }
+                else
+                {
+                    var erro = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Erro na API: {erro}");
+                    return erro; // Retorna a mensagem de erro da API
+                }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exceção ao cadastrar: {ex.Message}");
+            return "Erro de conexão com o servidor.";
+        }
     }
 }
