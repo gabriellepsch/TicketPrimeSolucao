@@ -21,8 +21,6 @@ public class EventoService
     {
         return await _http.GetFromJsonAsync<Evento>($"api/eventos/listar/{id}");
     }
-
-    // ADICIONE ESTE AQUI PARA A SUA PÁGINA DE CRIAR EVENTOS FUNCIONAR
     public async Task<string?> CriarEventoAsync(Evento novoEvento)
     {
         try
