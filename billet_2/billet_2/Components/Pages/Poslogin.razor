@@ -1,0 +1,150 @@
+@page "/poslogin"
+@using billet_2.Models
+@inject billet_2.Services.ViagemService ViagemService
+@inject NavigationManager Navigation
+@inject billet_2.Services.AuthService AuthService
+@rendermode RenderMode.InteractiveServer
+
+@* --- 1. BARRA DE NAVEGAÇÃO --- *@
+@if (!AuthService.EstaLogado)
+{
+    <p>Redirecionando...</p>
+    Navigation.NavigateTo("/");
+}else{
+    <nav class="navbar-top">
+        <a href="/poslogin" class="brand-button">TurismoPrime</a>
+
+        <div class="nav-actions-right">
+            @if(@AuthService.UsuarioLogado!.Adm){
+                <a href="/criar-viagem" class="nav-action-button create-btn">
+                    Criar Viagem ➕
+                </a>
+            }else{
+                <a href="/minhas-passagens" class="nav-action-button">
+                    Minhas Passagens 🎫
+                </a>
+            }
+
+            <div class="profile-wrapper">
+                <button class="nav-action-button create-btn" @onclick='ToggleDropdown' style="cursor:pointer;">
+                    @AuthService.UsuarioLogado!.Nome 👤
+                </button>
+
+                @if (dropdownAberto)
+                {
+                    <div class="profile-dropdown">
+                        <div class="dropdown-header">
+                            <p class="dropdown-nome">@AuthService.UsuarioLogado!.Nome</p>
+                            <p class="dropdown-email">@AuthService.UsuarioLogado!.Email</p>
+                        </div>
+                        <hr class="dropdown-divider" />
+                        <button class="dropdown-item-sair" @onclick="Deslogar">
+                            🚪 Sair
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </nav>
+
+    @* --- 2. SEÇÃO HERO (BANNER DINÂMICO) --- *@
+    @if (viagemDestaque != null)
+    {
+        <div class="hero-container">
+            @* Imagem de fundo desfocada - Puxando do Banco *@
+            <img src="@(string.IsNullOrEmpty(viagemDestaque.FotoUrl) ? "default.jpg" : viagemDestaque.FotoUrl)"
+                class="img-fundo-blur" alt="Fundo" />
+
+            <div class="card-frente-container">
+                <img src="@(string.IsNullOrEmpty(viagemDestaque.FotoUrl) ? "default.jpg" : viagemDestaque.FotoUrl)"
+                    class="img-card-frente" alt="@viagemDestaque.Destino" />
+                
+                <div class="card-frente-info">
+                    <h3>@viagemDestaque.Destino</h3>
+                    <p>Destaque • @viagemDestaque.DataSaida.ToString("dd/MM/yyyy")</p>
+                </div>
+            </div>
+        </div>
+    }
+
+    @* --- 3. SEÇÃO DE VIAGENS --- *@
+    <section class="events-section">
+        <div class="container py-5">
+            <h2 class="section-title">Nossas viagens 🤓</h2>
+            
+            <div class="row g-4">
+                @if (viagens == null)
+                {
+                    <div class="col-12 text-center">
+                        <p class="text-muted">Sincronizando viagens com o banco...</p>
+                    </div>
+                }
+                else if (!viagens.Any())
+                {
+                    <div class="col-12 text-center">
+                        <p class="text-muted">Nenhuma viagem cadastrada no momento.</p>
+                    </div>
+                }
+                else
+                {
+                    @foreach (var v in viagens)
+                    {
+                        <div class="col-12 col-md-4">
+                            <div class="event-card shadow-sm">
+                                <div class="event-img-cap">
+                                    @if (!string.IsNullOrEmpty(v.FotoUrl))
+                                    {
+                                        <img src="@v.FotoUrl" alt="@v.Destino" style="width:100%; height:100%; object-fit:cover;" />
+                                    }
+                                    else
+                                    {
+                                        <span>FOTO DA VIAGEM</span>
+                                    }
+                                </div>
+                                <div class="event-card-body">
+                                    <h5>@v.Destino</h5>
+                                    <p>@v.Descricao</p>
+                                    <small>📍 @v.Origem → @v.Destino - @v.DataSaida.ToString("dd/MM/yyyy")</small>
+                                    
+                                    @* Passando o ID real do banco para a página de detalhes da viagem *@
+                                    <a href="/viagem/@v.Id" class="event-link">Comprar Passagem →</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 TurismoPrime - Todos os direitos reservados.</p>
+    </footer>
+}
+@code {
+    private List<Viagem>? viagens;
+    private Viagem? viagemDestaque;
+    private bool dropdownAberto = false;
+
+    private void ToggleDropdown()
+    {
+        dropdownAberto = !dropdownAberto;
+    }
+
+    private void Deslogar()
+    {
+        AuthService.Deslogar();
+        Navigation.NavigateTo("/");
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        // 1. Busca os dados reais usando o Service
+        viagens = await ViagemService.ListarViagensAsync();
+
+        // 2. Define a primeira viagem da lista como o destaque do banner Hero
+        if (viagens != null && viagens.Any())
+        {
+            viagemDestaque = viagens.FirstOrDefault();
+        }
+    }
+}

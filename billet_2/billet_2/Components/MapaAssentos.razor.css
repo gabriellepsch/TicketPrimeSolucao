@@ -1,0 +1,77 @@
+.onibus-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.onibus-body {
+    background: #f0f0f0;
+    border: 3px solid #333;
+    border-radius: 20px;
+    padding: 20px;
+    width: 280px;
+}
+
+.motorista-area {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 10px;
+    margin-bottom: 10px;
+    border-bottom: 2px dashed #999;
+    padding-bottom: 10px;
+}
+
+.volante {
+    font-size: 24px;
+}
+
+.assentos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 10px 0;
+}
+
+.assento {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+}
+
+.assento.verde { background-color: #4CAF50; color: white; }
+.assento.amarelo { background-color: #FFC107; color: black; }
+.assento.vermelho { background-color: #F44336; color: white; }
+.assento.cinza { background-color: #9E9E9E; color: white; }
+
+.assento.selecionado {
+    border-color: #2196F3;
+    box-shadow: 0 0 8px rgba(33, 150, 243, 0.6);
+    transform: scale(1.1);
+}
+
+.assento:hover:not(.vermelho):not(.amarelo) {
+    transform: scale(1.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.numero-assento {
+    pointer-events: none;
+}
+
+.info-assento {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    width: 100%;
+    max-width: 280px;
+}

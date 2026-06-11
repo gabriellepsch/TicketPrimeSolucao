@@ -1,0 +1,177 @@
+@page "/minhas-passagens"
+@using billet_2.Models
+@using Microsoft.AspNetCore.Components.Web
+@rendermode RenderMode.InteractiveServer
+@inject NavigationManager Navigation
+@inject billet_2.Services.ViagemService ViagemService
+@inject billet_2.Services.QrCodeService QrCodeService
+
+@* --- 1. NAVBAR PADRÃO --- *@
+<nav class="navbar-top">
+    <a href="/poslogin" class="brand-button">
+        TurismoPrime
+    </a>
+</nav>
+
+@* --- 2. CONTEÚDO DAS PASSAGENS --- *@
+<main class="tickets-wrapper">
+    <div class="tickets-container">
+        <h1 class="tickets-title">Minhas Passagens</h1>
+
+        @if (carrinho.Any())
+        {
+            @foreach (var item in carrinho)
+            {
+                <div class="ticket-item">
+                    @* Miniatura da Viagem *@
+                    <div class="ticket-img-box">
+                        <img src="/images/destinos/@(string.IsNullOrEmpty(item.ViagemComprada.FotoUrl) ? "default.jpg" : item.ViagemComprada.FotoUrl)"
+                             alt="@item.ViagemComprada.Destino" />
+                    </div>
+
+                    @* Detalhes da Passagem *@
+                    <div class="ticket-info">
+                        <h3>@item.ViagemComprada.Destino</h3>
+                        <p class="ticket-meta">@item.ViagemComprada.Origem • @item.ViagemComprada.DataSaida.ToString("dd/MM/yyyy HH:mm")h</p>
+                        <div class="ticket-badge-row">
+                            <span class="badge-sector @(item.Tipo == "CONFORTO" ? "vip-gold" : "normal-silver")">
+                                @item.Tipo @(item.Tipo == "CONFORTO" ? "👑" : "🎫")
+                            </span>
+                            <span class="ticket-date">@item.ViagemComprada.DataSaida.ToString("dd/MM/yyyy")</span>
+                        </div>
+                    </div>
+
+                    @* Preço e Ações *@
+                    <div class="ticket-action-price">
+                        <span class="ticket-price">R$ @item.PrecoFinal.ToString("N2")</span>
+                        @if (!compraFinalizada)
+                        {
+                            <button class="btn-remove" @onclick="() => RemoverDoCarrinho(item.IdCompra)">Remover</button>
+                        }
+                    </div>
+
+                    @* QR Code exibido após finalização da compra *@
+                    @if (compraFinalizada && !string.IsNullOrEmpty(item.QrCodeBase64))
+                    {
+                        <div class="qr-code-box" style="text-align:center; margin-top:8px;">
+                            <img src="data:image/png;base64,@item.QrCodeBase64"
+                                 alt="QR Code da Passagem"
+                                 style="width:120px; height:120px;" />
+                            <p style="font-size:11px; color:#666; margin-top:4px;">
+                                Apresente este QR Code no embarque
+                            </p>
+                        </div>
+                    }
+                </div>
+            }
+
+            @* --- RESUMO E FINALIZAÇÃO --- *@
+            <div class="checkout-summary">
+                <div class="summary-line">
+                    <span>Subtotal</span>
+                    <span>R$ @CalcularTotal().ToString("N2")</span>
+                </div>
+                <div class="summary-line total">
+                    <span>TOTAL</span>
+                    <span>R$ @CalcularTotal().ToString("N2")</span>
+                </div>
+                
+                @if (!compraFinalizada)
+                {
+                    <div class="action-buttons">
+                        <button @onclick="IrParaViagens" class="btn-add-more">Adicionar mais viagens</button>
+                        <button class="btn-checkout" @onclick="FinalizarCompra">Finalizar Compra</button>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-success mt-3 text-center">
+                        <strong>Compra finalizada com sucesso!</strong>
+                        <p class="mb-0 mt-2">Suas passagens com QR Code estão prontas. Apresente o código no embarque.</p>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <h2 style="color: #666;">Seu carrinho está vazio.</h2>
+                <button @onclick="IrParaViagens" class="btn-add-more mt-3">Ver Viagens Disponíveis</button>
+            </div>
+        }
+    </div>
+</main>
+
+<footer class="site-footer">
+    <p>&copy; 2026 TurismoPrime - Todos os direitos reservados.</p>
+</footer>
+
+@code {
+    [Parameter] public string? Comprar { get; set; }
+    public class ItemCarrinho
+    {
+        public Guid IdCompra { get; set; } = Guid.NewGuid();
+        public Viagem ViagemComprada { get; set; } = new();
+        public string Tipo { get; set; } = "ECONOMICA";
+        public decimal PrecoFinal { get; set; }
+        public string? QrCodeBase64 { get; set; }
+    }
+    private List<ItemCarrinho> carrinho = new ();
+    private bool compraFinalizada;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrEmpty(Comprar))
+        {
+            var partes = Comprar.Split('|');
+            if (partes.Length == 3)
+            {
+                int viagemId = int.Parse(partes[0]);
+                string tipo = partes[1];
+                decimal preco = decimal.Parse(partes[2]);
+
+                var viagem = await ViagemService.BuscarPorIdAsync(viagemId);
+                
+                 if (viagem != null)
+                {
+                    var novoItem = new ItemCarrinho
+                    {
+                        IdCompra = Guid.NewGuid(),
+                        ViagemComprada = viagem,
+                        Tipo = tipo,
+                        PrecoFinal = preco
+                    };
+                    
+                    carrinho.Add(novoItem);
+                }
+                
+                Navigation.NavigateTo("/minhas-passagens", replace: true);
+            }
+        }
+         StateHasChanged();
+    }
+
+    private void RemoverDoCarrinho(Guid id)
+    {
+        var item = carrinho.FirstOrDefault(x => x.IdCompra == id);
+        if (item != null) carrinho.Remove(item);
+    }
+
+    private decimal CalcularTotal() => carrinho.Sum(x => x.PrecoFinal);
+
+    private void IrParaViagens() => Navigation.NavigateTo("/poslogin");
+
+    private void FinalizarCompra()
+    {
+        foreach (var item in carrinho)
+        {
+            var dadosQr = $"Viagem: {item.ViagemComprada.Destino}, " +
+                          $"Origem: {item.ViagemComprada.Origem}, " +
+                          $"Data: {item.ViagemComprada.DataSaida:dd/MM/yyyy HH:mm}, " +
+                          $"Tipo: {item.Tipo}, " +
+                          $"Valor: R$ {item.PrecoFinal:N2}";
+            item.QrCodeBase64 = QrCodeService.GerarQrCodeBase64(dadosQr);
+        }
+        compraFinalizada = true;
+    }
+}

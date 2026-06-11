@@ -1,0 +1,194 @@
+﻿@page "/viagem/{Id:int}"
+@using billet_2.Models
+@implements IDisposable
+@inject billet_2.Services.ViagemService ViagemService
+@inject NavigationManager Navigation
+@inject billet_2.Services.AuthService AuthService
+@inject billet_2.Services.ReservaService ReservaService
+@rendermode RenderMode.InteractiveServer
+@inject HttpClient Http
+
+@* --- 1. BARRA DE NAVEGAÇÃO --- *@
+<nav class="navbar-top">
+    <a href="/poslogin" class="brand-button"> TurismoPrime </a>
+</nav>
+
+@if (viagem == null)
+{
+    <div class="container text-center py-5">
+        <div class="spinner-border text-dark" role="status"></div>
+        <p class="mt-3">Buscando detalhes da viagem...</p>
+    </div>
+}
+else
+{
+    @* --- 2. SEÇÃO DO BANNER PRINCIPAL DINÂMICO --- *@
+    <div class="hero-container">
+        <img src="@(string.IsNullOrEmpty(viagem.FotoUrl) ? "default.jpg" : viagem.FotoUrl)"
+             class="img-fundo-blur" alt="Fundo Desfocado" />
+
+        <div class="card-frente-container">
+            <div class="photo-column">
+                <img src="@(string.IsNullOrEmpty(viagem.FotoUrl) ? "default.jpg" : viagem.FotoUrl)"
+                     class="img-card-frente" alt="@viagem.Destino" />
+            </div>
+
+            <div class="info-column">
+                <div class="content-padding">
+                    <h1 class="event-title">@viagem.Destino</h1>
+                    
+                    <div class="meta-data">
+                        <div class="meta-item">
+                            <span class="label">ORIGEM</span>
+                            <span class="value">@viagem.Origem</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="label">SAÍDA</span>
+                            <span class="value">@viagem.DataSaida.ToString("dd/MM/yyyy HH:mm")h</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="label">EMPRESA</span>
+                            <span class="value">@viagem.EmpresaTransporte</span>
+                        </div>
+                    </div>
+
+                    <div class="about-section">
+                        <h3>SOBRE A VIAGEM</h3>
+                        <p>@viagem.Descricao</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* --- 3. MAPA DE ASSENTOS + RESERVA (SP-05 + SP-06) --- *@
+    <section class="sectors-section">
+        <div class="sectors-container">
+            <h3 class="section-title">Escolha seu assento</h3>
+
+            @* Mapa de Assentos interativo *@
+            <MapaAssentos ViagemId="Id" OnAssentoSelecionado="HandleAssentoSelecionado" />
+
+            @* Feedback de erro *@
+            @if (!string.IsNullOrEmpty(mensagemErro))
+            {
+                <div class="alert alert-danger mt-3">@mensagemErro</div>
+            }
+
+            @* Feedback de sucesso *@
+            @if (reservaSucesso)
+            {
+                <div class="alert alert-success mt-3">
+                    <strong>Assento reservado com sucesso!</strong>
+                    <p>Reserva temporária por <span id="countdown">@FormatarTempoRestante()</span> minutos.</p>
+                    <p>Finalize a compra em <a href="/minhas-passagens">Minhas Passagens</a>.</p>
+                </div>
+            }
+
+            @* Botão de reserva *@
+            @if (assentoSelecionado != null && !reservaSucesso)
+            {
+                <div class="reserva-actions mt-3">
+                    <div class="alert alert-info">
+                        <strong>Assento @assentoSelecionado.Numero</strong> —
+                        @assentoSelecionado.Categoria
+                        @if (assentoSelecionado.PrecoExtra > 0)
+                        {
+                            <span>(+R$ @assentoSelecionado.PrecoExtra.ToString("F2"))</span>
+                        }
+                    </div>
+                    <button class="btn btn-primary btn-lg"
+                            @onclick="ReservarAssento"
+                            disabled="@estaProcessando">
+                        @(estaProcessando ? "Reservando..." : "Reservar Assento")
+                    </button>
+                </div>
+            }
+            else if (!reservaSucesso)
+            {
+                <p class="text-muted mt-3">Selecione um assento disponível (verde) para reservar.</p>
+            }
+        </div>
+    </section>
+}
+
+<footer class="site-footer">
+    <p>&copy; 2026 TurismoPrime - Todos os direitos reservados.</p>
+</footer>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Viagem? viagem;
+    private Assento? assentoSelecionado;
+    private string? mensagemErro;
+    private bool estaProcessando;
+    private bool reservaSucesso;
+    private int tempoRestanteSegundos = 900; // 15 min
+    private Timer? timer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        viagem = await ViagemService.BuscarPorIdAsync(Id);
+    }
+
+    private void HandleAssentoSelecionado(Assento assento)
+    {
+        assentoSelecionado = assento;
+        mensagemErro = null;
+        reservaSucesso = false;
+    }
+
+    private async Task ReservarAssento()
+    {
+        if (assentoSelecionado == null) return;
+
+        estaProcessando = true;
+        mensagemErro = null;
+
+        var erro = await ReservaService.ReservarAssento(Id, assentoSelecionado.Id);
+
+        if (erro == null)
+        {
+            reservaSucesso = true;
+            IniciarContagemRegressiva();
+        }
+        else
+        {
+            mensagemErro = erro;
+        }
+
+        estaProcessando = false;
+        StateHasChanged();
+    }
+
+    private string FormatarTempoRestante()
+    {
+        var min = tempoRestanteSegundos / 60;
+        var seg = tempoRestanteSegundos % 60;
+        return $"{min:D2}:{seg:D2}";
+    }
+
+    private void IniciarContagemRegressiva()
+    {
+        tempoRestanteSegundos = 900;
+        timer = new Timer(_ =>
+        {
+            if (tempoRestanteSegundos > 0)
+            {
+                tempoRestanteSegundos--;
+                InvokeAsync(StateHasChanged);
+            }
+            else
+            {
+                timer?.Dispose();
+            }
+        }, null, 1000, 1000);
+    }
+
+    public void Dispose()
+    {
+        timer?.Dispose();
+    }
+}

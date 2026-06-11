@@ -1,0 +1,76 @@
+@* MapaAssentos.razor — Visual interativo do ônibus com assentos *@
+@using billet_2.Models
+@inject HttpClient Http
+
+<div class="onibus-container">
+    <div class="onibus-body">
+        <div class="motorista-area">
+            <div class="volante">🚌</div>
+        </div>
+        <div class="assentos-grid">
+            @foreach (var assento in Assentos)
+            {
+                var cor = assento.Status switch
+                {
+                    StatusAssento.Disponivel => "verde",
+                    StatusAssento.Reservado => "amarelo",
+                    StatusAssento.Vendido => "vermelho",
+                    _ => "cinza"
+                };
+
+                var selecionado = AssentoSelecionado?.Id == assento.Id ? "selecionado" : "";
+
+                <div class="assento @cor @selecionado @assento.Categoria.ToLower()"
+                     @onclick="() => SelecionarAssento(assento)"
+                     title="@($"Assento {assento.Numero} - {assento.Categoria}")">
+                    <span class="numero-assento">@assento.Numero</span>
+                </div>
+            }
+        </div>
+    </div>
+    @if (AssentoSelecionado != null)
+    {
+        <div class="info-assento">
+            <p><strong>Assento:</strong> @AssentoSelecionado.Numero</p>
+            <p><strong>Categoria:</strong> @AssentoSelecionado.Categoria</p>
+            @if (AssentoSelecionado.PrecoExtra > 0)
+            {
+                <p><strong>Valor adicional:</strong> R$ @AssentoSelecionado.PrecoExtra.ToString("F2")</p>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public int ViagemId { get; set; }
+    [Parameter] public EventCallback<Assento> OnAssentoSelecionado { get; set; }
+
+    private List<Assento> Assentos = new();
+    private Assento? AssentoSelecionado { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CarregarAssentos();
+    }
+
+    private async Task CarregarAssentos()
+    {
+        try
+        {
+            Assentos = await Http.GetFromJsonAsync<List<Assento>>($"api/viagens/{ViagemId}/assentos") ?? new();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao carregar assentos: {ex.Message}");
+        }
+    }
+
+    private async Task SelecionarAssento(Assento assento)
+    {
+        if (assento.Status != StatusAssento.Disponivel)
+            return; // Não permite selecionar assento ocupado
+
+        AssentoSelecionado = assento;
+        await OnAssentoSelecionado.InvokeAsync(assento);
+    }
+}

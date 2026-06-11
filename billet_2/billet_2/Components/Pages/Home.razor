@@ -1,0 +1,90 @@
+﻿@page "/"
+@using billet_2.Models
+@inject billet_2.Services.ViagemService ViagemService
+
+<div class="page-container">
+    @* --- SEÇÃO 1: HERO BANNER (VÍDEO) --- *@
+    <section class="hero-section">
+        <div class="video-wrapper">
+            <video autoplay loop muted playsinline class="video-element">
+                <source src="videos/video1.mp4" type="video/mp4" />
+                Seu navegador não suporta vídeos.
+            </video>
+            <div class="video-overlay"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="container text-center text-white">
+                <h1 class="hero-title">TurismoPrime</h1>
+                <p class="hero-text">
+                    O TurismoPrime é a sua plataforma de reservas de transporte turístico. Encontre a viagem perfeita
+                    e embarque em momentos inesquecíveis.
+                </p>
+                <hr class="hero-hr" />
+                <a href="/cadastro" class="btn-hero">Faça seu cadastro e viaje com o TurismoPrime</a>
+            </div>
+        </div>
+    </section>
+
+    @* --- SEÇÃO 2: VIAGENS DINÂMICAS --- *@
+    <section class="events-section">
+        <div class="container py-5">
+            <h2 class="section-title">Nossas viagens ↷</h2>
+            
+            <div class="row g-4">
+                @if (viagens == null)
+                {
+                    @* Shimmer ou Loading enquanto a API não responde *@
+                    <p class="text-center w-100">Carregando viagens incríveis...</p>
+                }
+                else if (!viagens.Any())
+                {
+                    <p class="text-center w-100">Nenhuma viagem disponível no momento. Volte logo!</p>
+                }
+                else
+                {
+                    @foreach (var viagem in viagens)
+                    {
+                        <div class="col-12 col-md-4">
+                            <div class="event-card shadow-sm">
+                                <div class="event-img-cap">
+                                    @if (!string.IsNullOrEmpty(viagem.FotoUrl))
+                                    {
+                                        <img src="@viagem.FotoUrl" alt="@viagem.Destino" style="width:100%; height:100%; object-fit:cover;" />
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">FOTO DA VIAGEM</span>
+                                    }
+                                </div>
+                                <div class="event-card-body">
+                                    <h5>@viagem.Destino</h5>
+                                    <p>@viagem.Descricao</p>
+                                    <small>📍 @viagem.Origem → @viagem.Destino - @viagem.DataSaida.ToString("dd/MM/yyyy")</small>
+                                    
+                                    @* Como é a Home (sem login), mandamos para o Cadastro ou Viagem detalhada *@
+                                    <a href="/viagem/@viagem.Id" class="event-link">Ver passagens →</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </section>
+
+    @* --- SEÇÃO 3: RODAPÉ --- *@
+    <footer class="site-footer">
+        <p>&copy; 2026 TurismoPrime - Todos os direitos reservados.</p>
+    </footer>
+</div>
+
+@code {
+    private List<Viagem>? viagens;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Puxa os dados reais da API/Banco via Service
+        viagens = await ViagemService.ListarViagensAsync();
+    }
+}

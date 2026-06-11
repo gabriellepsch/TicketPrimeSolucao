@@ -1,0 +1,78 @@
+@api_HostAddress = http://localhost:5289
+
+### Passageiros — Listar todos
+GET {{api_HostAddress}}/api/passageiros/listar
+Accept: application/json
+
+### Passageiros — Cadastrar
+POST {{api_HostAddress}}/api/passageiros/cadastrar
+Content-Type: application/json
+
+{
+  "nome": "João Silva",
+  "email": "joao@email.com",
+  "cpf": "12345678901",
+  "senha": "minhasenha",
+  "adm": false
+}
+
+### Auth — Login (obter token JWT)
+POST {{api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "joao@email.com",
+  "senha": "minhasenha"
+}
+
+### Viagens — Listar todas
+GET {{api_HostAddress}}/api/viagens/listar
+Accept: application/json
+
+### Viagens — Buscar por ID
+GET {{api_HostAddress}}/api/viagens/listar/1
+Accept: application/json
+
+### Viagens — Cadastrar nova
+POST {{api_HostAddress}}/api/viagens/cadastrar
+Content-Type: application/json
+
+{
+  "destino": "Rio de Janeiro",
+  "origem": "São Paulo",
+  "descricao": "Viagem turística com paradas em pontos históricos",
+  "dataSaida": "2026-12-01T08:00:00",
+  "dataRetorno": "2026-12-05T20:00:00",
+  "totalAssentos": 46,
+  "valorPassagem": 150.00,
+  "tipoVeiculo": "Semileito",
+  "empresaTransporte": "Viação ABC",
+  "fotoUrl": "images/destinos/rio.jpg"
+}
+
+### Assentos — Listar assentos de uma viagem
+GET {{api_HostAddress}}/api/viagens/1/assentos
+Accept: application/json
+
+### Reservas — Reservar assento (bloqueio de 15 min)
+POST {{api_HostAddress}}/api/reservas
+Content-Type: application/json
+
+{
+  "viagemId": 1,
+  "assentoId": 5,
+  "passageiroId": 1
+}
+
+### Cupons — Listar todos
+GET {{api_HostAddress}}/api/cupons/listar
+Accept: application/json
+
+### Cupons — Cadastrar
+POST {{api_HostAddress}}/api/cupons/cadastrar
+Content-Type: application/json
+
+{
+  "codigo": "PROMO10",
+  "percentualDesconto": 10
+}

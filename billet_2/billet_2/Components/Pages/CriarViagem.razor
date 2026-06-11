@@ -1,0 +1,142 @@
+@page "/criar-viagem"
+@using billet_2.Models
+@using Microsoft.AspNetCore.Components.Forms
+@rendermode RenderMode.InteractiveServer
+@inject billet_2.Services.ViagemService ViagemService
+@inject NavigationManager Navigation
+
+@* --- 1. NAVBAR --- *@
+<nav class="navbar-top">
+    <a href="/poslogin" class="brand-button">TurismoPrime</a>
+</nav>
+
+@* --- 2. CONTEÚDO PRINCIPAL --- *@
+<main class="create-wrapper">
+    <div class="create-container">
+        <h1 class="create-title">Nova Viagem</h1>
+        
+        @if (exibirSucesso)
+        {
+            <div class="alert alert-success text-center">
+                🎉 Viagem publicada com sucesso!
+            </div>
+        }
+        
+        @if(exibirErro){
+            <div class="alert alert-danger text-center">
+                @mensagemErro
+            </div>
+        }
+
+        <EditForm Model="novaViagem" OnValidSubmit="SalvarViagem" class="create-form" FormName="CadastroViagem">
+            <DataAnnotationsValidator />
+
+            @* Destino *@
+            <div class="form-group">
+                <label>DESTINO</label>
+                <InputText @bind-Value="novaViagem.Destino" placeholder="Ex: Rio de Janeiro" class="form-control" />
+            </div>
+
+            @* Origem *@
+            <div class="form-group">
+                <label>ORIGEM</label>
+                <InputText @bind-Value="novaViagem.Origem" placeholder="Ex: São Paulo" class="form-control" />
+            </div>
+
+            @* Data de Saída e Retorno *@
+            <div class="form-row">
+                <div class="form-group">
+                    <label>DATA DE SAÍDA</label>
+                    <InputDate @bind-Value="novaViagem.DataSaida" Type="InputDateType.DateTimeLocal" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>DATA DE RETORNO (opcional)</label>
+                    <InputDate @bind-Value="novaViagem.DataRetorno" Type="InputDateType.DateTimeLocal" class="form-control" />
+                </div>
+            </div>
+
+            @* Total de Assentos *@
+            <div class="form-row">
+                <div class="form-group">
+                    <label>TOTAL DE ASSENTOS</label>
+                    <InputNumber @bind-Value="novaViagem.TotalAssentos" class="form-control" placeholder="0" />
+                </div>
+                <div class="form-group">
+                    <label>VALOR DA PASSAGEM (R$)</label>
+                    <InputNumber @bind-Value="novaViagem.ValorPassagem" placeholder="0,00" class="form-control" />
+                </div>
+            </div>
+
+            @* Tipo de Veículo *@
+            <div class="form-group">
+                <label>TIPO DE VEÍCULO</label>
+                <select @bind="novaViagem.TipoVeiculo" class="form-control" required>
+                    <option value="">Selecione...</option>
+                    <option value="Leito">Leito</option>
+                    <option value="Semileito">Semileito</option>
+                    <option value="Convencional">Convencional</option>
+                </select>
+            </div>
+
+            @* Empresa de Transporte *@
+            <div class="form-group">
+                <label>EMPRESA DE TRANSPORTE</label>
+                <InputText @bind-Value="novaViagem.EmpresaTransporte" placeholder="Ex: Viação ABC" class="form-control" />
+            </div>
+
+            @* Sobre a Viagem *@
+            <div class="form-group">
+                <label>SOBRE A VIAGEM</label>
+                <InputTextArea @bind-Value="novaViagem.Descricao" rows="4" placeholder="Descreva os detalhes..." class="form-control" />
+            </div>
+
+            @* URL da Imagem *@
+            <div class="form-group">
+                <label>URL DA IMAGEM (BANNER)</label>
+                <InputText @bind-Value="novaViagem.FotoUrl" placeholder="Ex: destino.jpg" class="form-control" />
+            </div>
+
+            @* Botões de Ação *@
+            <div class="form-actions">
+                <button type="button" @onclick='() => Navigation.NavigateTo("/poslogin")' class="btn-cancel">Cancelar</button>
+                <button type="submit" class="btn-save" disabled="@estaProcessando">
+                    @(estaProcessando ? "Salvando..." : "Publicar Viagem")
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</main>
+
+<footer class="site-footer">
+    <p>&copy; 2026 TurismoPrime - Todos os direitos reservados.</p>
+</footer>
+
+@code {
+    private Viagem novaViagem = new();
+    private bool estaProcessando = false;
+    private bool exibirSucesso = false;
+    private bool exibirErro = false;
+    private string mensagemErro = "";
+
+    private async Task SalvarViagem()
+    {
+        estaProcessando = true;
+
+        var response = await ViagemService.CriarViagemAsync(novaViagem);
+
+        if (string.IsNullOrEmpty(response))
+        {
+            exibirErro = false;
+            exibirSucesso = true;
+            StateHasChanged();
+            await Task.Delay(2000);
+            Navigation.NavigateTo("/poslogin");
+        }
+        else
+        {         
+            exibirErro = true;
+            mensagemErro = response;
+            estaProcessando = false;
+        }
+    }
+}

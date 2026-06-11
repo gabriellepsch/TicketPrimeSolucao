@@ -1,0 +1,6 @@
+@TicketPrimeSolucaoAPI_HostAddress = http://localhost:5204
+
+GET {{TicketPrimeSolucaoAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

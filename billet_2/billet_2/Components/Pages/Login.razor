@@ -1,0 +1,91 @@
+@page "/login"
+@using Microsoft.AspNetCore.Components.Forms
+@using billet_2.Models
+@rendermode RenderMode.InteractiveServer
+@inject NavigationManager Navigation
+@inject billet_2.Services.PassageiroService PassageiroService
+@inject billet_2.Services.AuthService AuthService
+
+@* --- 1. BARRA DE TOPO --- *@
+<nav class="navbar-top">
+    <a href="/" class="brand-button">TurismoPrime</a>
+</nav>
+
+@* --- 2. CONTAINER DE LOGIN --- *@
+<div class="registration-container">
+    <div class="registration-card shadow-sm">
+        
+        <h2 class="text-center mb-2 fw-bold" style="font-family: 'TanNimbus', sans-serif; color: #333;">Faça Login</h2>
+
+        @if (!string.IsNullOrEmpty(mensagemErro))
+        {
+            <div class="alert alert-danger py-2 small">@mensagemErro</div>
+        }
+
+        @if (loginSucesso)
+        {
+            <div class="alert alert-success">Login executado com sucesso! Redirecionando...</div>
+        }
+        else
+        {
+            <EditForm Model="passageiro" OnValidSubmit="HandleLogin" FormName="LoginPassageiro">
+        
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">CPF</label>
+                    <InputText @bind-Value="passageiro.Cpf" class="form-control custom-input" placeholder="000.000.000-00" />
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Senha</label>
+                    <InputText @bind-Value="passageiro.Senha" type="password" class="form-control custom-input" placeholder="sua senha" />
+                </div>
+
+                <button type="submit" class="btn-finalizar" disabled="@carregando">
+                    @(carregando ? "Processando..." : "Entrar")
+                </button>
+            </EditForm>
+        }
+        <p> Ainda não tem uma conta? <a href="/cadastro">Clique aqui!</a></p>
+    </div>
+</div>
+
+@code {
+    private Passageiro passageiro = new();
+    private string mensagemErro = "";
+    private bool loginSucesso = false;
+    private bool carregando = false;
+
+    private async Task HandleLogin()
+    {
+        mensagemErro = "";
+        carregando = true;
+
+        // Busca todos os passageiros e tenta encontrar o que corresponde ao CPF + Senha
+        var passageiros = await PassageiroService.ListarPassageirosAsync();
+
+        if (passageiros != null)
+        {
+            var encontrado = passageiros.FirstOrDefault(p =>
+                p.Cpf == passageiro.Cpf && p.Senha == passageiro.Senha);
+
+            if (encontrado != null)
+            {
+                AuthService.Logar(encontrado);
+                loginSucesso = true;
+                StateHasChanged();
+                await Task.Delay(1500);
+                Navigation.NavigateTo("/poslogin");
+            }
+            else
+            {
+                mensagemErro = "CPF ou senha incorretos.";
+            }
+        }
+        else
+        {
+            mensagemErro = "Erro ao conectar com o servidor.";
+        }
+
+        carregando = false;
+    }
+}
