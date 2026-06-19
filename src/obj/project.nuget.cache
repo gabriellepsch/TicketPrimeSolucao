@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "eHvTieyTcYo=",
+  "dgSpecHash": "shy4aPfO6ow=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Administrador\\Downloads\\TicketPrimeSolucao-front-atualizado-novas-paginas\\TicketPrimeSolucao-front-atualizado-novas-paginas\\src\\api.csproj",
+  "projectFilePath": "C:\\Users\\Administrador\\Desktop\\TicketPrimeSolucao-pivotagem\\TicketPrimeSolucao-main\\src\\api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrador\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.5\\microsoft.aspnetcore.openapi.10.0.5.nupkg.sha512",
     "C:\\Users\\Administrador\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512"

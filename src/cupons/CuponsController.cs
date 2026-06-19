@@ -1,5 +1,5 @@
 public static class CuponsController{
-    private static List<Cupons> Cupons = new();
+    public static List<Cupons> Cupons = new();
     private static int idAtual = 1;
     public static void ListarCupons(this WebApplication app){
         app.MapGet("/api/cupons/listar", () => 
