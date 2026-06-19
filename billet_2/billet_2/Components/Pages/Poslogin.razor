@@ -1,6 +1,6 @@
 @page "/poslogin"
 @using billet_2.Models
-@inject billet_2.Services.EventoService EventoService
+@inject billet_2.Services.ViagemService ViagemService
 @inject NavigationManager Navigation
 @inject billet_2.Services.AuthService AuthService
 @rendermode RenderMode.InteractiveServer
@@ -16,12 +16,15 @@
 
         <div class="nav-actions-right">
             @if(@AuthService.UsuarioLogado!.Adm){
-                <a href="/criarevento" class="nav-action-button create-btn">
-                    Criar Evento ➕
+                <a href="/criarviagem" class="nav-action-button create-btn">
+                    Criar Viagem ➕
+                </a>
+                <a href="/criarveiculo" class="nav-action-button create-btn">
+                    Criar Veículo ⚙
                 </a>
             }else{
-                <a href="/meusingressos" class="nav-action-button">
-                    Meus Ingressos 🎫
+                <a href="/minhaspassagens" class="nav-action-button">
+                    Minhas Passagens 🎫
                 </a>
             }
 
@@ -48,66 +51,66 @@
     </nav>
 
     @* --- 2. SEÇÃO HERO (BANNER DINÂMICO) --- *@
-    @if (eventoDestaque != null)
+    @if (viagemDestaque != null)
     {
         <div class="hero-container">
             @* Imagem de fundo desfocada - Puxando do Banco *@
-            <img src="@(string.IsNullOrEmpty(eventoDestaque.FotoUrl) ? "default.jpg" : eventoDestaque.FotoUrl)"
+            <img src="@(string.IsNullOrEmpty(viagemDestaque.FotoUrl) ? "default.jpg" : viagemDestaque.FotoUrl)"
                 class="img-fundo-blur" alt="Fundo" />
 
             <div class="card-frente-container">
-                <img src="@(string.IsNullOrEmpty(eventoDestaque.FotoUrl) ? "default.jpg" : eventoDestaque.FotoUrl)"
-                    class="img-card-frente" alt="@eventoDestaque.Nome" />
+                <img src="@(string.IsNullOrEmpty(viagemDestaque.FotoUrl) ? "default.jpg" : viagemDestaque.FotoUrl)"
+                    class="img-card-frente" alt="@viagemDestaque.Origem → @viagemDestaque.Destino" />
                 
                 <div class="card-frente-info">
-                    <h3>@eventoDestaque.Nome</h3>
-                    <p>Destaque • @eventoDestaque.Data.ToString("dd/MM/yyyy")</p>
+                    <h3>@viagemDestaque.Origem → @viagemDestaque.Destino</h3>
+                    <p>Destaque • @viagemDestaque.DataPartida.ToString("dd/MM/yyyy")</p>
                 </div>
             </div>
         </div>
     }
 
-    @* --- 3. SEÇÃO DE EVENTOS --- *@
-    <section class="events-section">
+    @* --- 3. SEÇÃO DE VIAGENS --- *@
+    <section class="viagens-section">
         <div class="container py-5">
-            <h2 class="section-title">Nossos eventos 🤓</h2>
+            <h2 class="section-title">Nossas viagens 🤓</h2>
             
             <div class="row g-4">
-                @if (eventos == null)
+                @if (viagens == null)
                 {
                     <div class="col-12 text-center">
-                        <p class="text-muted">Sincronizando eventos com o banco...</p>
+                        <p class="text-muted">Sincronizando viagens com o banco...</p>
                     </div>
                 }
-                else if (!eventos.Any())
+                else if (!viagens.Any())
                 {
                     <div class="col-12 text-center">
-                        <p class="text-muted">Nenhum evento cadastrado no momento.</p>
+                        <p class="text-muted">Nenhuma viagem cadastrada no momento.</p>
                     </div>
                 }
                 else
                 {
-                    @foreach (var ev in eventos)
+                    @foreach (var viagem in viagens)
                     {
                         <div class="col-12 col-md-4">
-                            <div class="event-card shadow-sm">
-                                <div class="event-img-cap">
-                                    @if (!string.IsNullOrEmpty(ev.FotoUrl))
+                            <div class="viagem-card shadow-sm">
+                                <div class="viagem-img-cap">
+                                    @if (!string.IsNullOrEmpty(viagem.FotoUrl))
                                     {
-                                        <img src="@ev.FotoUrl" alt="@ev.Nome" style="width:100%; height:100%; object-fit:cover;" />
+                                        <img src="@viagem.FotoUrl" alt="@viagem.Origem → @viagem.Destino" style="width:100%; height:100%; object-fit:cover;" />
                                     }
                                     else
                                     {
-                                        <span>FOTO DO EVENTO</span>
+                                        <span>FOTO DA VIAGEM</span>
                                     }
                                 </div>
-                                <div class="event-card-body">
-                                    <h5>@ev.Nome</h5>
-                                    <p>@ev.Descricao</p>
-                                    <small>@ev.Local - @ev.Data.ToString("dd/MM/yyyy")</small>
+                                <div class="viagem-card-body">
+                                    <h5>@viagem.Origem → @viagem.Destino</h5>
+                                    <p>@viagem.Descricao</p>
+                                    <small>📅 @viagem.DataPartida.ToString("dd/MM/yyyy HH:mm")</small>
                                     
-                                    @* Passando o ID real do banco para a página de vendas *@
-                                    <a href="/vendas/@ev.Id" class="event-link">Garantir Ingressos →</a>
+                                    @* Passando o ID real do banco para a página de assentos *@
+                                    <a href="/viagem/@viagem.Id/assentos" class="viagem-link">Ver assentos →</a>
                                 </div>
                             </div>
                         </div>
@@ -122,8 +125,8 @@
     </footer>
 }
 @code {
-    private List<Evento>? eventos;
-    private Evento? eventoDestaque;
+    private List<Viagem>? viagens;
+    private Viagem? viagemDestaque;
     private bool dropdownAberto = false;
 
     private void ToggleDropdown()
@@ -138,13 +141,13 @@
     }
     protected override async Task OnInitializedAsync()
     {
-        // 1. Busca os dados reais usando o Service do Git
-        eventos = await EventoService.ListarEventosAsync();
+        // 1. Busca os dados reais usando o Service
+        viagens = await ViagemService.ListarViagensAsync();
 
-        // 2. Define o primeiro evento da lista como o destaque do banner Hero
-        if (eventos != null && eventos.Any())
+        // 2. Define a primeira viagem da lista como o destaque do banner Hero
+        if (viagens != null && viagens.Any())
         {
-            eventoDestaque = eventos.FirstOrDefault();
+            viagemDestaque = viagens.FirstOrDefault();
         }
     }
 }

@@ -88,7 +88,7 @@
     }
 
 /* SEÇÃO DE EVENTOS */
-.events-section {
+.viagens-section {
     background-color: white;
     position: relative;
     z-index: 3; /* Garante que fique sobre o vídeo ao rolar */
@@ -103,7 +103,7 @@
 }
 
 /* CARDS DE EVENTO */
-.event-card {
+.viagem-card {
     background: white;
     border-radius: 16px;
     overflow: hidden;
@@ -112,12 +112,12 @@
     border: 1px solid #eee;
 }
 
-    .event-card:hover {
+    .viagem-card:hover {
         transform: translateY(-8px);
         box-shadow: 0 15px 30px rgba(0,0,0,0.1);
     }
 
-.event-img-cap {
+.viagem-img-cap {
     height: 180px;
     display: flex;
     align-items: center;
@@ -127,11 +127,11 @@
     font-size: 0.8rem;
 }
 
-.event-card-body {
+.viagem-card-body {
     padding: 20px;
 }
 
-.event-link {
+.viagem-link {
     display: block;
     margin-top: 15px;
     color: #0d6efd;

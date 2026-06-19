@@ -168,7 +168,7 @@ html, body {
 /* ============================================================
    4. GRID DE EVENTOS
    ============================================================ */
-.events-section {
+.viagens-section {
     background-color: white;
     width: 100%;
     padding: 60px 0;
@@ -182,7 +182,7 @@ html, body {
     font-size: 2rem;
 }
 
-.event-card {
+.viagem-card {
     background: white;
     border-radius: 16px;
     overflow: hidden;
@@ -191,12 +191,12 @@ html, body {
     border: 1px solid #eee;
 }
 
-    .event-card:hover {
+    .viagem-card:hover {
         transform: translateY(-8px);
         box-shadow: 0 15px 30px rgba(0,0,0,0.1);
     }
 
-.event-img-cap {
+.viagem-img-cap {
     height: 180px;
     display: flex;
     align-items: center;
@@ -205,11 +205,11 @@ html, body {
     color: #adb5bd;
 }
 
-.event-card-body {
+.viagem-card-body {
     padding: 20px;
 }
 
-.event-link {
+.viagem-link {
     display: block;
     margin-top: 15px;
     color: #0d6efd;
