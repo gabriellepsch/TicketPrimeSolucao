@@ -15,7 +15,10 @@ builder.Services.AddScoped(dp => new HttpClient
 });
 
 // --- ADICIONADO DO GIT: REGISTRO DOS SERVIÇOS ---
-builder.Services.AddScoped<EventoService>();
+builder.Services.AddScoped<ViagemService>();
+builder.Services.AddScoped<VeiculoService>();
+builder.Services.AddScoped<AssentoService>();
+builder.Services.AddScoped<PassagemService>();
 builder.Services.AddScoped<UsuarioService>();
 builder.Services.AddSingleton<AuthService>();
 
