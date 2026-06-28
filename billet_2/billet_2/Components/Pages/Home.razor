@@ -1,0 +1,254 @@
+@page "/"
+@using billet_2.Models
+@inject billet_2.Services.ViagemService ViagemService
+
+<div class="page-container">
+    @* ===== HERO SECTION ===== *@
+    <section class="hero-section">
+        <div class="hero-bg-wrapper">
+            <img src="images/eventos/imagem13.jpg" class="hero-bg-image" alt="Destino paradisiaco" />
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title fade-in-up">Explore o Mundo</h1>
+            <p class="hero-subtitle fade-in-up delay-1">
+                Sua jornada comeca aqui. Descubra destinos incriveis, viva experiencias unicas
+                e crie memorias que durarao para sempre.
+            </p>
+            <hr class="hero-divider fade-in-up delay-2" />
+            <a href="/cadastro" class="btn-hero fade-in-up delay-3">
+                Comece sua aventura
+                <span class="arrow">&rarr;</span>
+            </a>
+        </div>
+    </section>
+
+    @* ===== DESTINOS (DESKTOP ONLY) ===== *@
+    <section class="destinations-section">
+        <div class="destinations-container">
+            <div class="section-header">
+                <h2 class="section-heading">Destinos Que Voce Vai Amar</h2>
+                <p class="section-subheading">
+                    Destinos selecionados a dedo, amados por milhares de viajantes.
+                    Explore os lugares mais badalados do mundo.
+                </p>
+            </div>
+
+            @if (viagens == null)
+            {
+                <div class="loading-state"><div class="spinner"></div><p>Carregando destinos...</p></div>
+            }
+            else if (!viagens.Any())
+            {
+                <div class="empty-state"><p>Nenhum destino disponivel.</p></div>
+            }
+            else
+            {
+                var destaque = viagens.First();
+                var demais = viagens.Skip(1).Take(4).ToList();
+
+                <div class="destinations-layout">
+                    @* COLUNA ESQUERDA — Card principal *@
+                    <div class="destinations-main">
+                        <a href="/viagem/@destaque.Id/assentos" class="main-card">
+                            <div class="main-card-img">
+                                @if (!string.IsNullOrEmpty(destaque.FotoUrl))
+                                { <img src="@destaque.FotoUrl" alt="@destaque.Destino" /> }
+                                else
+                                { <div class="main-card-placeholder">@destaque.Destino</div> }
+                                <div class="main-card-overlay"></div>
+                            </div>
+                            <div class="main-card-content">
+                                <h3 class="main-card-title">Explore os Melhores Destinos</h3>
+                                <p class="main-card-subtitle">Descubra locais deslumbrantes selecionados para sua proxima aventura.</p>
+                                <div class="main-card-thumbs">
+                                    @foreach (var m in demais)
+                                    {
+                                        <div class="thumb">
+                                            @if (!string.IsNullOrEmpty(m.FotoUrl))
+                                            { <img src="@m.FotoUrl" alt="@m.Destino" /> }
+                                            else
+                                            { <span class="thumb-letter">@m.Destino[0]</span> }
+                                        </div>
+                                    }
+                                    <div class="thumb see-all"><span>Ver Todos</span></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    @* COLUNA DIREITA — Grid 2x2 *@
+                    <div class="destinations-grid">
+                        @foreach (var viagem in demais)
+                        {
+                            <a href="/viagem/@viagem.Id/assentos" class="pkg-card">
+                                <div class="pkg-card-img">
+                                    @if (!string.IsNullOrEmpty(viagem.FotoUrl))
+                                    { <img src="@viagem.FotoUrl" alt="@viagem.Destino" /> }
+                                    else
+                                    { <div class="pkg-card-placeholder">@viagem.Destino</div> }
+                                    <span class="pkg-badge">@((viagem.DataChegada - viagem.DataPartida).Days) Dias</span>
+                                    <span class="pkg-heart">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                    </span>
+                                </div>
+                                <div class="pkg-card-body">
+                                    <h4 class="pkg-location">@viagem.Destino</h4>
+                                    <div class="pkg-rating">
+                                        <span class="stars">
+                                            @for (int i = 0; i < 5; i++)
+                                            { <svg width="12" height="12" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> }
+                                        </span>
+                                        <span class="reviews">@(new Random().Next(80, 300)) avaliacoes</span>
+                                    </div>
+                                    <div class="pkg-footer">
+                                        <span class="pkg-price">@($"R$ {viagem.PrecoBase:N0}")</span>
+                                        <span class="pkg-btn">Ver Detalhes</span>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+    @* ===== POR QUE VIAJAR COM A GENTE (DESKTOP ONLY) ===== *@
+    <section class="why-section">
+        <div class="why-container">
+            <div class="why-header">
+                <h2 class="why-title">Por Que Viajar Com a Gente?</h2>
+                <p class="why-subtitle">
+                    Combinamos expertise, paixao e tecnologia para oferecer
+                    experiencias de viagem excepcionais feitas sob medida para voce.
+                </p>
+            </div>
+
+            <div class="why-grid">
+                @* COL 1 — Imagem da viajante *@
+                <div class="why-image-col">
+                    <div class="why-traveler-card">
+                        <img src="images/eventos/muiemala.jpg" alt="Viajante feliz" class="why-traveler-img" />
+                        <div class="why-floating-plane">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="#4274D9"><path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0 0 11.5 2 1.5 1.5 0 0 0 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+                        </div>
+                        <div class="why-floating-cloud c1"></div>
+                        <div class="why-floating-cloud c2"></div>
+                    </div>
+                </div>
+
+                @* COL 2 — Cards de beneficios *@
+                <div class="why-benefits-col">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4274D9" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </div>
+                        <div class="benefit-text">
+                            <h4 class="benefit-title">Reserva Facil</h4>
+                            <p class="benefit-desc">Reserve voos, hoteis e passeios em minutos.</p>
+                        </div>
+                        <div class="benefit-step">1</div>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4274D9" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        </div>
+                        <div class="benefit-text">
+                            <h4 class="benefit-title">Melhores Precos</h4>
+                            <p class="benefit-desc">Garantimos as tarifas mais competitivas para suas viagens.</p>
+                        </div>
+                        <div class="benefit-step">2</div>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4274D9" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <div class="benefit-text">
+                            <h4 class="benefit-title">Suporte 24/7</h4>
+                            <p class="benefit-desc">Nossa equipe esta sempre pronta para ajudar, a qualquer hora, em qualquer lugar.</p>
+                        </div>
+                        <div class="benefit-step">3</div>
+                    </div>
+                </div>
+
+                @* COL 3 — Banner de oferta *@
+                <div class="why-offer-col">
+                    <div class="offer-card">
+                        <img src="images/eventos/imagem12.jpg" alt="Oferta especial" class="offer-img" />
+                        <div class="offer-badge">
+                            <span class="offer-label">Oferta Especial</span>
+                            <span class="offer-pct">48% OFF</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @* ===== NOSSA HISTÓRIA (DESKTOP ONLY) ===== *@
+    <section class="historia-section">
+        <div class="historia-container">
+            <div class="historia-layout">
+                @* COLUNA ESQUERDA — Grid limpo de 3 imagens *@
+                <div class="historia-grid">
+                    <div class="historia-grid-main">
+                        <img src="images/eventos/equipeturismo.jpg" alt="Nossa equipe" />
+                    </div>
+                    <div class="historia-grid-stack">
+                        <img src="images/eventos/equipeturismo2.jpg" alt="Equipe em ação" />
+                        <img src="images/eventos/equipeturismo3.jpg" alt="Equipe turismo" />
+                    </div>
+                </div>
+
+                @* COLUNA DIREITA — Conteúdo *@
+                <div class="historia-content">
+                    <h2 class="historia-title">Nossa História</h2>
+                    <p class="historia-subtitle">Criando aventuras inesquecíveis com segurança e confiança.</p>
+                    <p class="historia-text">
+                        Toda grande jornada começa com confiança. Nossa paixão é transformar o seu sonho
+                        de viajar em uma realidade tranquila e inesquecível. Para nós, cada detalhe importa.
+                        Por isso, nossa equipe é formada exclusivamente por profissionais credenciados no
+                        CADASTUR, garantindo a você uma experiência autêntica, com total segurança e suporte
+                        em cada etapa do seu roteiro.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @* ===== FOOTER ===== *@
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>Billet *</h4>
+                <p>Conectando pessoas a experiencias inesqueciveis ao redor do mundo.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Links</h4>
+                <a href="/">Home</a>
+                <a href="/cadastro">Cadastro</a>
+                <a href="/login">Login</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contato</h4>
+                <p>billet@turismo.com</p>
+                <p>+55 (21) 99999-9999</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; @DateTime.Now.Year Billet — Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</div>
+
+@code {
+    private List<Viagem>? viagens;
+
+    protected override async Task OnInitializedAsync()
+    {
+        viagens = await ViagemService.ListarViagensAsync();
+    }
+}

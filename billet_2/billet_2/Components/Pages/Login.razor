@@ -1,0 +1,60 @@
+@page "/login"
+@using Microsoft.AspNetCore.Components.Forms
+@using billet_2.Models
+@rendermode RenderMode.InteractiveServer
+@inject NavigationManager Navigation
+@inject billet_2.Services.UsuarioService UsuarioService
+@inject billet_2.Services.AuthService AuthService
+
+<div class="page-wrapper">
+    <div class="page-card">
+        <h2 class="page-title">Faca Login</h2>
+
+        @if (!string.IsNullOrEmpty(mensagemErro))
+        { <div class="alert alert-danger py-2 small">@mensagemErro</div> }
+        @if (loginSucesso)
+        { <div class="alert alert-success">Login efetuado! Redirecionando...</div> }
+        else
+        {
+            <EditForm Model="usuario" OnValidSubmit="HandleLogin" FormName="LoginUsuario">
+                <div class="mb-3">
+                    <label class="form-label">CPF</label>
+                    <InputText @bind-Value="usuario.Cpf" class="form-control" placeholder="000.000.000-00" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Senha</label>
+                    <InputText @bind-Value="usuario.Senha" type="password" class="form-control" placeholder="sua senha" />
+                </div>
+                <button type="submit" class="btn-submit" disabled="@carregando">
+                    @(carregando ? "Processando..." : "Entrar")
+                </button>
+            </EditForm>
+        }
+        <p class="text-center mt-3" style="font-size:.85rem;color:#64748B;">
+            Ainda nao tem uma conta? <a href="/cadastro" class="text-link">Clique aqui!</a>
+        </p>
+    </div>
+</div>
+
+@code {
+    private Usuario usuario = new();
+    private string mensagemErro = "";
+    private bool loginSucesso = false;
+    private bool carregando = false;
+
+    private async Task HandleLogin()
+    {
+        mensagemErro = "";
+        carregando = true;
+        var usuarios = await UsuarioService.ListarUsuariosAsync();
+        var usuarioEncontrado = usuarios?.FirstOrDefault(u => u.Cpf == usuario.Cpf && u.Senha == usuario.Senha);
+        if(usuarioEncontrado != null){
+            AuthService.Logar(usuarioEncontrado);
+            loginSucesso = true;
+            StateHasChanged();
+            await Task.Delay(1500);
+            Navigation.NavigateTo("/poslogin");
+        }else{ mensagemErro = "CPF ou senha invalidos!"; }
+        carregando = false;
+    }
+}

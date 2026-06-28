@@ -1,0 +1,119 @@
+@page "/poslogin"
+@using billet_2.Models
+@inject billet_2.Services.ViagemService ViagemService
+@inject NavigationManager Navigation
+@inject billet_2.Services.AuthService AuthService
+@rendermode RenderMode.InteractiveServer
+
+@if (!AuthService.EstaLogado)
+{
+    <p>Redirecionando...</p>
+    Navigation.NavigateTo("/");
+}
+else
+{
+    @* ===== TOP ACTIONS (flutuante) ===== *@
+    <div class="pos-top-actions">
+        @if(AuthService.UsuarioLogado!.Adm){
+            <a href="/criarviagem" class="pos-action-link">+ Nova Viagem</a>
+        } else {
+            <a href="/minhaspassagens" class="pos-action-link">Minhas Passagens</a>
+        }
+        <div class="pos-profile">
+            <button class="pos-profile-btn" @onclick="ToggleDropdown">@AuthService.UsuarioLogado!.Nome</button>
+            @if (dropdownAberto)
+            {
+                <div class="pos-dropdown">
+                    <p class="pos-dropdown-name">@AuthService.UsuarioLogado!.Nome</p>
+                    <p class="pos-dropdown-email">@AuthService.UsuarioLogado!.Email</p>
+                    <button class="pos-dropdown-logout" @onclick="Deslogar">Sair</button>
+                </div>
+            }
+        </div>
+    </div>
+
+    @* ===== HERO ===== *@
+    @if (viagemDestaque != null)
+    {
+        <div class="pos-hero">
+            <img src="@(string.IsNullOrEmpty(viagemDestaque.FotoUrl) ? "images/eventos/imagem13.jpg" : viagemDestaque.FotoUrl)"
+                class="pos-hero-bg" alt="Background" />
+            <div class="pos-hero-overlay"></div>
+            <div class="pos-hero-row">
+                <div class="pos-hero-text">
+                    <h1 class="pos-hero-heading">Sua Proxima Aventura</h1>
+                    <p class="pos-hero-desc">
+                        De <strong>@viagemDestaque.Origem</strong> para <strong>@viagemDestaque.Destino</strong>.
+                        @viagemDestaque.Descricao
+                    </p>
+                    <div class="pos-hero-meta">
+                        <span>📅 Partida: @viagemDestaque.DataPartida.ToString("dd/MM/yyyy")</span>
+                        <span>💰 A partir de R$ @viagemDestaque.PrecoBase.ToString("N0")</span>
+                    </div>
+                    <a href="/viagem/@viagemDestaque.Id/assentos" class="pos-hero-btn">Ver Detalhes →</a>
+                </div>
+                <div class="pos-hero-card">
+                    <img src="@(string.IsNullOrEmpty(viagemDestaque.FotoUrl) ? "images/eventos/imagem13.jpg" : viagemDestaque.FotoUrl)"
+                        class="pos-hero-img" alt="@viagemDestaque.Destino" />
+                </div>
+            </div>
+        </div>
+    }
+
+    @* ===== VIAGENS ===== *@
+    <section class="pos-viagens">
+        <div class="pos-container">
+            <h2 class="pos-section-title">Nossas Viagens</h2>
+
+            @if (viagens == null)
+            {
+                <div class="pos-loading"><div class="spinner"></div><p>Carregando viagens...</p></div>
+            }
+            else if (!viagens.Any())
+            {
+                <div class="pos-empty"><p>Nenhuma viagem cadastrada no momento.</p></div>
+            }
+            else
+            {
+                <div class="pos-grid">
+                    @foreach (var viagem in viagens)
+                    {
+                        <a href="/viagem/@viagem.Id/assentos" class="pos-card">
+                            <div class="pos-card-img">
+                                @if (!string.IsNullOrEmpty(viagem.FotoUrl))
+                                { <img src="@viagem.FotoUrl" alt="@viagem.Destino" /> }
+                                else
+                                { <span>@viagem.Destino</span> }
+                            </div>
+                            <div class="pos-card-body">
+                                <h4>@viagem.Origem → @viagem.Destino</h4>
+                                <p>@viagem.Descricao</p>
+                                <small>📅 @viagem.DataPartida.ToString("dd/MM/yyyy")</small>
+                                <span class="pos-card-link">Ver assentos →</span>
+                            </div>
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+    </section>
+
+    @* ===== FOOTER ===== *@
+    <footer class="pos-footer">
+        <p>&copy; 2026 Billet — Todos os direitos reservados.</p>
+    </footer>
+}
+
+@code {
+    private List<Viagem>? viagens;
+    private Viagem? viagemDestaque;
+    private bool dropdownAberto = false;
+    private void ToggleDropdown() => dropdownAberto = !dropdownAberto;
+    private void Deslogar() { AuthService.Deslogar(); Navigation.NavigateTo("/"); }
+
+    protected override async Task OnInitializedAsync()
+    {
+        viagens = await ViagemService.ListarViagensAsync();
+        if (viagens != null && viagens.Any()) viagemDestaque = viagens.FirstOrDefault();
+    }
+}

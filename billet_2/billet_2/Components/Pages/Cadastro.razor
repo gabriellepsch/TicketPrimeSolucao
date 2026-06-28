@@ -1,0 +1,75 @@
+@page "/cadastro"
+@using Microsoft.AspNetCore.Components.Forms
+@using billet_2.Models
+@rendermode RenderMode.InteractiveServer
+@inject NavigationManager Navigation
+@inject billet_2.Services.UsuarioService UsuarioService
+@inject billet_2.Services.AuthService AuthService
+
+<div class="page-wrapper">
+    <div class="page-card">
+        <h2 class="page-title">Criar Conta</h2>
+        <p class="page-subtitle">Junte-se a inovacao em eventos.</p>
+
+        @if (!string.IsNullOrEmpty(mensagemErro))
+        { <div class="alert alert-danger py-2 small">@mensagemErro</div> }
+        @if (cadastroSucesso)
+        { <div class="alert alert-success">Usuario criado! Redirecionando...</div> }
+        else
+        {
+            <EditForm Model="usuario" OnValidSubmit="HandleCadastro" FormName="CadastroUsuario">
+                <div class="mb-3">
+                    <label class="form-label">Nome Completo</label>
+                    <InputText @bind-Value="usuario.Nome" class="form-control" placeholder="Digite seu nome" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">E-mail</label>
+                    <InputText @bind-Value="usuario.Email" type="email" class="form-control" placeholder="seu@email.com" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">CPF</label>
+                    <InputText @bind-Value="usuario.Cpf" class="form-control" placeholder="000.000.000-00" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Senha</label>
+                    <InputText @bind-Value="usuario.Senha" type="password" class="form-control" placeholder="Senha segura" />
+                </div>
+                <div class="mb-3 d-flex align-items-center gap-2">
+                    <input type="checkbox" id="checkAdmin" @bind="isAdmin" style="width:18px;height:18px;cursor:pointer;" />
+                    <label for="checkAdmin" class="fw-semibold m-0" style="cursor:pointer;color:#475569;">Vou criar eventos</label>
+                </div>
+                <button type="submit" class="btn-submit" disabled="@carregando">
+                    @(carregando ? "Processando..." : "Finalizar Cadastro")
+                </button>
+            </EditForm>
+            <p class="text-center mt-3" style="font-size:.85rem;color:#64748B;">
+                Ja possui cadastro? <a href="/login" class="text-link">Clique Aqui!</a>
+            </p>
+        }
+    </div>
+</div>
+
+@code {
+    private Usuario usuario = new();
+    private bool isAdmin = false;
+    private string mensagemErro = "";
+    private bool cadastroSucesso = false;
+    private bool carregando = false;
+    private async Task HandleCadastro()
+    {
+        mensagemErro = "";
+        carregando = true;
+        usuario.Adm = isAdmin;
+        var erroRetornado = await UsuarioService.CadastrarAsync(usuario);
+        if (string.IsNullOrEmpty(erroRetornado))
+        {
+            AuthService.Logar(usuario);
+            cadastroSucesso = true;
+            StateHasChanged();
+            await Task.Delay(1500);
+            Navigation.NavigateTo("/poslogin");
+        }
+        else { mensagemErro = erroRetornado; }
+        carregando = false;
+    }
+}
