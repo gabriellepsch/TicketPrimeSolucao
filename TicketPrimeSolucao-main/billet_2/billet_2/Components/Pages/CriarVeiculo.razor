@@ -1,0 +1,99 @@
+@page "/criarveiculo"
+@using billet_2.Models
+@using Microsoft.AspNetCore.Components.Forms
+@rendermode RenderMode.InteractiveServer
+@inject billet_2.Services.VeiculoService VeiculoService
+@inject NavigationManager Navigation
+
+<div class="page-wrapper">
+    <div class="page-card page-card-wide">
+        <h2 class="page-title">Novo Veiculo</h2>
+
+        @if (exibirSucesso)
+        { <div class="alert alert-success text-center">Veiculo cadastrado com sucesso!</div> }
+        @if (exibirErro)
+        { <div class="alert alert-danger text-center">@mensagemErro</div> }
+
+        <EditForm Model="novoVeiculo" OnValidSubmit="SalvarVeiculo" FormName="CadastroVeiculo">
+            <DataAnnotationsValidator />
+
+            <div class="form-row-2">
+                <div class="mb-3 flex-1">
+                    <label class="form-label">Modelo</label>
+                    <InputText @bind-Value="novoVeiculo.Modelo" placeholder="Ex: Mercedes-Benz O500" class="form-control" />
+                </div>
+                <div class="mb-3 flex-1">
+                    <label class="form-label">Placa</label>
+                    <InputText @bind-Value="novoVeiculo.Placa" placeholder="Ex: ABC-1234" class="form-control" />
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Tipo do Veiculo</label>
+                <InputSelect @bind-Value="novoVeiculo.Tipo" class="form-control">
+                    <option value="">Selecione um tipo...</option>
+                    <option value="Convencional">Convencional</option>
+                    <option value="Executivo">Executivo</option>
+                    <option value="Leito">Leito</option>
+                    <option value="Micro-onibus">Micro-onibus</option>
+                    <option value="Van">Van</option>
+                </InputSelect>
+            </div>
+
+            <div class="form-row-2">
+                <div class="mb-3 flex-1">
+                    <label class="form-label">Numero de Fileiras (Linhas)</label>
+                    <InputNumber @bind-Value="novoVeiculo.Linhas" class="form-control" placeholder="Ex: 10" />
+                </div>
+                <div class="mb-3 flex-1">
+                    <label class="form-label">Numero de Colunas por Fileira</label>
+                    <InputNumber @bind-Value="novoVeiculo.Colunas" class="form-control" placeholder="Ex: 4" />
+                </div>
+            </div>
+
+            @if (novoVeiculo.Linhas > 0 && novoVeiculo.Colunas > 0)
+            {
+                <div class="alert alert-info text-center">
+                    Capacidade total: <strong>@(novoVeiculo.Linhas * novoVeiculo.Colunas)</strong> assentos
+                </div>
+            }
+
+            <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:20px;">
+                <button type="button" @onclick='() => Navigation.NavigateTo("/poslogin")' class="btn-outline" style="width:auto;padding:10px 28px;">Cancelar</button>
+                <button type="submit" class="btn-submit" style="width:auto;padding:10px 32px;" disabled="@estaProcessando">
+                    @(estaProcessando ? "Salvando..." : "Cadastrar Veiculo")
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private Veiculo novoVeiculo = new();
+    private bool estaProcessando = false;
+    private bool exibirSucesso = false;
+    private bool exibirErro = false;
+    private string mensagemErro = "";
+
+    private async Task SalvarVeiculo()
+    {
+        estaProcessando = true;
+
+        var response = await VeiculoService.CriarVeiculoAsync(novoVeiculo);
+
+        if (string.IsNullOrEmpty(response))
+        {
+            exibirErro = false;
+            exibirSucesso = true;
+            StateHasChanged();
+            await Task.Delay(2000);
+            Navigation.NavigateTo("/poslogin");
+        }
+        else
+        {
+            exibirErro = true;
+            mensagemErro = response;
+            estaProcessando = false;
+        }
+    }
+}
